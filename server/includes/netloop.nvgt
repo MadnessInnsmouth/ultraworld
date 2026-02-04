@@ -687,7 +687,7 @@ void netloop() {
 		msgs.insert_last("Teleporters can be used to remove yourself from an unknown area, by pressing alt+v and pressing backspace to choose where you want to go.");
 		msgs.insert_last("To get an account on our team talk server, you can send an admin tell and request an account.");
 		msgs.insert_last("Join us on whatsapp at https://chat.whatsapp.com/LkjhAmvhIK9AZsfTsLj0Bp?mode=ems_share_t");
-		msgs.insert_last("contribute to our game at: https://github.com/kannadiga2104/ultraworld unselected");
+		msgs.insert_last("contribute to our game at: https://github.com/kannadiga2104/ultraworld");
 		int frase = random(0, msgs.length() - 1);
 		send_reliable(0, "notify_startrek_chime " + msgs[frase], 0);
 	}
@@ -1018,26 +1018,7 @@ void netloop() {
 			else if (e.channel == 7) {
 				int index = get_player_index(e.peer_id);
 				if (index > -1) {
-					players[index].idle.restart();
-					if (players[index].away == true) {
-						players[index].away = false;
-						pesend(0, players[index].nickname + " is no longer away", name = players[index].name);
-						players[index].awaytitle = "";
-					}
-					if (players[index].pvp_stop) {
-						players[index].pvp_stop = false;
-						send_reliable(players[index], "play_s terror.ogg", 6);
-						send_reliable(players[index], "error! " + players[index].nickname + ", please don't touch your keyboard while turning off your pvp!", 2);
-					}
-					if (players[index].afking) {
-						players[index].afking = false;
-						players[index].afk = false;
-						send_packet(6, "play afkoff.ogg " + players[index].x + " " + players[index].y + " " + players[index].z, players[index].x, players[index].y, players[index].z, maps[get_map_index(players[index].map)]);
-						send_reliable(players[index], "error! " + players[index].nickname + ", please don't touch your keyboard while going afk!", 2);
-						write_to(players[index].name, "afk.usr", players[index].afk);
-						write_to(players[index].name, "afkseconds.usr", players[index].afkseconds);
-						players[index].afktitle = "";
-					}
+					handle_activity(players[index], 7, get_event_message());
 					play(players[index], get_event_message());
 				}
 			}

@@ -766,9 +766,9 @@ class player {
 			caverna = 0;
 			send_reliable(peer_id, "You feel your muscles returning to normal ...", 2);
 		}
-		if (idle.elapsed >= 300000 and away == false) {
+		if (idle.elapsed >= 300000 and away == false && !afk) {
 			away = true;
-			pesend(0, "" + name + " is now away.", name = this.name);
+			pesend(0, "" + nickname + " is now away.", name = this.name);
 			titlecheck(players[i]);
 		}
 		if (speedboost == true and speedboosttime.elapsed > speedboosttimer) {
@@ -2236,9 +2236,9 @@ string[] nearest_player_sorted_arrayto(player@ p) {
 			p_status += ", AFK";
 			if (target.afktitle != "" and string_to_lower_case(target.afktitle) != "afk") p_status += ", " + target.afktitle;
 		} else if (target.away) {
-			p_status += ", Away, idle " + (target.idle.elapsed / 60000) + " minutes";
+			p_status += ", Away, idle " + ms_to_readable_time(target.idle.elapsed);
 		} else if (target.idle.elapsed > 60000) {
-			p_status += ", inactive " + (target.idle.elapsed / 60000) + " minutes";
+			p_status += ", inactive " + ms_to_readable_time(target.idle.elapsed);
 		}
 		if (target.status != "" and target.status != "no status message has been set") {
 			p_status += ", status: " + target.status;
