@@ -8,10 +8,6 @@ class player {
 	string cached_prison_oldmap = "";
 	int last_checked_health = 0;
 	string last_attacker_name = "";
-	bool logout_requested = false;
-	timer logout_timer;
-	double logout_x, logout_y, logout_z;
-	bool should_finalize_close = false;
 	timer last_hit_timer;
 	double real_x, real_y, real_z;
 	string real_map;
@@ -443,23 +439,6 @@ class player {
 			this.last_hit_timer.restart();
 		}
 		this.last_checked_health = this.health;
-		if (logout_requested) {
-			if (floor(x) != floor(logout_x) or floor(y) != floor(logout_y) or floor(z) != floor(logout_z)) {
-				logout_requested = false;
-				send_reliable(peer_id, "Logout canceled: you moved!", 2);
-			}
-			else if (last_hit_timer.elapsed < 1000) {
-				logout_requested = false;
-				send_reliable(peer_id, "Logout canceled: you are under attack!", 2);
-			}
-			else if (logout_timer.elapsed >= 10000) {
-				logout_requested = false;
-				should_finalize_close = true;
-				send_reliable(peer_id, "perm_exit", 0);
-				player_event(this, "close");
-				return;
-			}
-		}
 		if (disconnected && last_hit_timer.elapsed >= 1800000) {
 			remove_player(name);
 			return;
