@@ -1396,7 +1396,7 @@ void moveplayermap(string map, player@p, int x = 0, int y = 0, int z = 0, bool c
 void exitsvr(bool restart = false) {
 	svd::save();
 	svd::destruct();
-	send_reliable(0, "killclient", 0);
+	//send_reliable(0, "killclient", 0);
 	on_web(delete = true, lock = true);
 	file_put("profile.log", generate_profile());
 	wait(500);
