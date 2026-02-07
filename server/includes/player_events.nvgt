@@ -293,7 +293,6 @@ void player_event(player@p, string event) {
 		int old_mode = xp_schedule[day];
 		xp_schedule[day] = mode;
 		string msg = p.name + " changed " + get_day_name(day) + " schedule from " + get_xp_name(old_mode) + " to " + get_xp_name(mode) + ".";
-		p.sendpacket(msg, 2);
 		admintell(msg);
 		save_xp_schedule();
 		if (auto_xp) {
