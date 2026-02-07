@@ -846,7 +846,7 @@ void use(player@p, string message) {
 			p.level += 100;
 			p.bone_level = 0;
 			p.bone_break = false;
-			p.inv_add_item("amirmahdifards_coffee", -1);
+			p.inv_add_item("ultimate_elixir", -1);
 			p.inv_add_item("cup", 1);
 			send_reliable(p, "hempty " + parsed[2], 0);
 		} else if (parsed[1] == "patricus_coffee") {
