@@ -73,7 +73,7 @@ void login(bool is_reconnecting = false) {
 		} else if (e.type == event_receive and get_event_message() == "mapname")
 			mapname = string_replace(get_event_message(), "mapname ", "", false);
 		else if (e.type == event_receive and get_event_message() == "updatenow") {
-			string nver = url_get("https://posix.live/uw.php");
+			string nver = url_get("https://uw.posix.live/uw.php");
 			dlg("your client is out of date");
 			reset_network();
 			mainmenu();

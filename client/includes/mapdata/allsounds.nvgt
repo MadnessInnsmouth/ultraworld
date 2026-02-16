@@ -2214,6 +2214,10 @@ deepwaterstep3
 deepwaterstep4
 deepwaterstep5
 deep_fryer
+deerbgrunt
+deerdying
+deerfgrunt
+deerhurt
 defuse
 delivery_drop
 delivery_drop_int
@@ -2482,6 +2486,15 @@ dog_voice3
 dog_voice4
 dog_voice5
 dola_intro
+dolphin1
+dolphin2
+dolphin3
+dolphin4
+dolphindying1
+dolphindying2
+dolphinhurt1
+dolphinhurt2
+dolphinupset
 doom_buggy_command
 doom_buggy_die
 doom_buggy_engine_ext
@@ -4045,6 +4058,11 @@ fridge5
 fridge6
 frog chorus (birds, gray tree frogs, spring peepers, american toad))
 frog
+Frog_call
+Frog_call2
+Frog_call3
+Frog_dying
+Frog_hurt
 fry1
 fry2
 fry3

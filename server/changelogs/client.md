@@ -1,4 +1,5 @@
 ## Changes in 2.49.5
+- updated the sound pack. players can see more new sounds. thanks for players those who contributed for the sounds
 - Added a new sound for auction canceling thanks to the Charry's feedback.
 - You can now restrict dropping items on the ground! The newly added item drop restriction in the Build menu allows you to either restrict all items or create a list of items that are allowed to be dropped, automatically restricting all others. Say goodbye to cozy house spammers!
 - Added look restriction zones! Map builders can now define specific areas where the look command is restricted. Within these zones, players will be unable to see the area's contents or descriptions unless they are specifically authorized. When creating a look restriction zone, you can also provide a whitelist of usernames who are allowed to bypass the restriction. This is a powerful tool for creating private rooms, secret areas, or staff-only locations within your maps.
@@ -17,10 +18,10 @@
 - Added a new buffer called team events. Team points now drop into this buffer. If you do not want to receive team points, you can mute this buffer.
 - Added Team Menu! Pressing Alt+F now opens the team menu, where you can easily handle all of your team's operations and settings.
 - Fixed the fishing coordinate. You cannot fish in any water tiles like before.
-- Added a learn game sounds option in the misc submenu.
+- Added a learn game sounds option in the misc submenu. thanks @blind soldier56
 - Now you can restart the game from the main menu. The option is in the misc submenu.
 - Added message channel navigation! When the message field is open, pressing Tab now toggles between different channels and recipients in the list, allowing you to quickly define the message destination before sending.
-- Private message fields now support multiline.
+- Private message fields now support multiline. thanks HarryMK to the feedback.
 - Rewritten all build menu items so that they can be navigated using tab and shift tab keys instead of pressing enter.
 
 ## Changes in 2.49.1

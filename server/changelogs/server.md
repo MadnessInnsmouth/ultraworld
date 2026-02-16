@@ -1,7 +1,7 @@
 ## Changes on Saturday, February 14, 2026
+- version 2.49.5 has been released.
 - Edited cmds. Added some existing codes and updated some old commands.
 - Fixed broken pvp status in the build menu.
-
 ## Changes on Thursday, February 12, 2026
 - Fixed several bugs related to map creation.
     1. Resolved an issue that caused players to fall when creating a map with negative coordinates.
