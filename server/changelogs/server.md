@@ -1,7 +1,10 @@
+## Changes on Monday, February 16, 2026
+- Version 2.49.5 has been released.
+
 ## Changes on Saturday, February 14, 2026
-- version 2.49.5 has been released.
 - Edited cmds. Added some existing codes and updated some old commands.
 - Fixed broken pvp status in the build menu.
+
 ## Changes on Thursday, February 12, 2026
 - Fixed several bugs related to map creation.
     1. Resolved an issue that caused players to fall when creating a map with negative coordinates.
@@ -42,8 +45,12 @@
 - The code that caused screen reader interruptions due to packet loss in incompatible clients while attempting to send team points to the team events buffer has been disabled until the update. We apologize to everyone affected by this issue.
 - Changed server notifications.
 - Fixed multiple issues with the item carrier, including a sound loop after being destroyed by another player and being unable to send items when only one was in the inventory.
--added a command  for staff to control the weather.
+
+## Significant changes from the past.
+- Added a command  for staff to control the weather.
 - Added a new game, guess the number. Staff can enable it for players.
+- Optimized map system.
+
 ## Changes on Sunday, November 30, 2025
 - Version 2.49.1 has been released.
 - Enhanced fire-starting mechanics: Players can now reliably start fires on various tile types, with checks for safe zones to prevent accidental fires in restricted areas.

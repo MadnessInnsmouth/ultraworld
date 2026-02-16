@@ -13,17 +13,20 @@
 - Completely redesigned tile and zone tracking menus. They now open only when trackable objects exist, and the Stop tracking option appears only while actively tracking something.
 - Added back the inventory drop confirmation.
 - Fixed a bug where the camera and spyglass failed to see platforms at intermediate directions like Northeast, Southwest, etc.
-- added nutritional machine in the builder menu.
 - Fixed a bug where auto loggin being enabled caused exiting from the game doesn't return back to the main menu, it would exit the client directly. That shouldn't be the case.
+- Normal players can now build fishing coordinate.
 - Added selection points. This feature will increase your map building speed.
 - Fixed buffer muting.
 - Added a new buffer called team events. Team points now drop into this buffer. If you do not want to receive team points, you can mute this buffer.
 - Added Team Menu! Pressing Alt+F now opens the team menu, where you can easily handle all of your team's operations and settings.
 - Fixed the fishing coordinate. You cannot fish in any water tiles like before.
-- Added a learn game sounds option in the misc submenu. thanks @blind soldier56
+- Added a learn game sounds option in the misc submenu. Thanks to @blind soldier56.
+- Added nutrition machine in the build menu.
+- Bring back the snapping.
+- Cleaned some old and unused codes.
 - Now you can restart the game from the main menu. The option is in the misc submenu.
 - Added message channel navigation! When the message field is open, pressing Tab now toggles between different channels and recipients in the list, allowing you to quickly define the message destination before sending.
-- Private message fields now support multiline. thanks HarryMK to the feedback.
+- Private message fields now support multiline.
 - Rewritten all build menu items so that they can be navigated using tab and shift tab keys instead of pressing enter.
 
 ## Changes in 2.49.1
