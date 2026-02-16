@@ -1061,7 +1061,8 @@ void login(string u, string p, string yv, uint id, string compid, string node_id
 		can_login = false;
 	}
 	if (yver < lv) {
-		send_reliable(id, "block your client is out of date. Your version: " + yv + ". Minimum required version is " + version + ". Get the newest version by checking for updates, or from the following link:https://uw.posix.live", 0);
+		//send_reliable(id, "block your client is out of date. Your version: " + yv + ". Minimum required version is " + version + ". Get the newest version by checking for updates, or from the following link: https://uw.posix.live", 0);
+		send_reliable(id, "block your client is out of date. Your version: " + yv + ". Minimum required version is " + version + ". Get the newest version from the following link: https://drive.google.com/file/d/1-L0V1u8Jxe7ViZkoW76qx7W6awvx-w0N/view?usp=drivesdk", 0);
 		can_login = false;
 	}
 	//double r=rlc(compid,ip,u,node_id);
