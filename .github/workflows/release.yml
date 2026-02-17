@@ -74,7 +74,7 @@ jobs:
               Write-Host "Attempting alternative 7z extraction methods..."
               
               # Try extracting as a self-extracting archive
-              7z x nvgt_setup.exe -o"nvgt_extracted_alt" -y * -r
+              7z x nvgt_setup.exe -o"nvgt_extracted_alt" -y
               
               $nvgtc = Get-ChildItem -Path "nvgt_extracted_alt" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
               if ($nvgtc) {
@@ -89,8 +89,8 @@ jobs:
           
           if (-not $nvgtc) {
             Write-Error "Could not find nvgtc.exe after all extraction attempts"
-            Write-Host "Contents of nvgt_extracted:"
-            Get-ChildItem -Path "nvgt_extracted*" -Recurse | Select-Object FullName | Format-Table
+            Write-Host "Contents of nvgt_extracted directories:"
+            Get-ChildItem -Path "nvgt_extracted*" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName | Format-Table
             exit 1
           }
           
