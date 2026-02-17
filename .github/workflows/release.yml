@@ -47,7 +47,7 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Extracting NVGT with 7-Zip..."
-          $extractOutput = 7z x nvgt_setup.exe -onvgt_extracted -y
+          7z x nvgt_setup.exe -onvgt_extracted -y
           Write-Host "7z extraction complete. Searching for nvgtc.exe..."
           $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
           
@@ -70,11 +70,11 @@ jobs:
               Stop-Job $job
               Remove-Job $job
               
-              # Try direct extraction with 7z using different methods
-              Write-Host "Attempting alternative 7z extraction methods..."
+              # Try extracting with different archive types as fallback
+              Write-Host "Attempting alternative extraction with different archive types..."
               
-              # Try extracting as a self-extracting archive
-              7z x nvgt_setup.exe -o"nvgt_extracted_alt" -y
+              # Try as NSIS installer first
+              7z x nvgt_setup.exe -o"nvgt_extracted_alt" -y -t#
               
               $nvgtc = Get-ChildItem -Path "nvgt_extracted_alt" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
               if ($nvgtc) {
