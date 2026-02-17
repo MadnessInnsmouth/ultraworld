@@ -75,7 +75,12 @@ jobs:
             $allFiles = Get-ChildItem -Path "nvgt_temp" -File
             foreach ($file in $allFiles) {
               Write-Host "Attempting to extract $($file.Name)..."
-              7z x $file.FullName -o"nvgt_extracted" -y 2>$null
+              $extractOutput = & 7z x $file.FullName -o"nvgt_extracted" -y 2>&1
+              if ($LASTEXITCODE -eq 0) {
+                Write-Host "  Successfully extracted $($file.Name)"
+              } else {
+                Write-Host "  Could not extract $($file.Name) (may not be an archive)"
+              }
             }
           }
           
