@@ -29,12 +29,7 @@ jobs:
           echo "TAG=v${version}-${shortSha}" >> $env:GITHUB_OUTPUT
           echo "Game version: $version"
 
-      - name: Install innoextract
-        shell: pwsh
-        run: |
-          Write-Host "Installing innoextract via Chocolatey..."
-          choco install innoextract -y
-          Write-Host "innoextract installed successfully"
+
 
       - name: Download NVGT compiler
         shell: pwsh
@@ -53,13 +48,14 @@ jobs:
       - name: Extract NVGT compiler
         shell: pwsh
         run: |
-          Write-Host "Extracting NVGT Inno Setup installer using innoextract..."
+          Write-Host "Extracting NVGT Inno Setup installer using 7-Zip..."
           
-          # Use innoextract to properly extract the Inno Setup installer
-          innoextract nvgt_setup.exe --output-dir nvgt_extracted
+          # Use 7-Zip to extract the Inno Setup installer (pre-installed on Windows runners)
+          # 7-Zip can handle Inno Setup installers more reliably than innoextract
+          & "C:\Program Files\7-Zip\7z.exe" x nvgt_setup.exe -onvgt_extracted -y
           
           if ($LASTEXITCODE -ne 0) {
-            Write-Error "Failed to extract NVGT installer with innoextract"
+            Write-Error "Failed to extract NVGT installer with 7-Zip"
             exit 1
           }
           
