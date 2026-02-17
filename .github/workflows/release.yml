@@ -33,8 +33,9 @@ jobs:
         shell: pwsh
         run: |
           $headers = @{ "Accept" = "application/vnd.github.v3+json" }
+          # NVGT uses "latest" as a literal git tag name for bleeding-edge builds
           $release = Invoke-RestMethod -Uri "https://api.github.com/repos/samtupy/nvgt/releases/tags/latest" -Headers $headers
-          $winAsset = $release.assets | Where-Object { $_.name -match '\.exe$' } | Select-Object -First 1
+          $winAsset = $release.assets | Where-Object { $_.name -match '^nvgt_.*\.exe$' } | Select-Object -First 1
           if (-not $winAsset) {
             Write-Error "Could not find NVGT Windows installer in the latest release"
             exit 1
