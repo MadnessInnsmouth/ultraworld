@@ -1,0 +1,172 @@
+name: Build and Release Ultra World
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract game version
+        id: version
+        shell: pwsh
+        run: |
+          $content = Get-Content "client/application.nvgt" -Raw
+          if ($content -match 'this\.version\s*=\s*"([^"]+)"') {
+            $version = $Matches[1]
+          } else {
+            $version = "0.0.0"
+          }
+          $shortSha = "${{ github.sha }}".Substring(0, 7)
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+          echo "TAG=v${version}-${shortSha}" >> $env:GITHUB_OUTPUT
+          echo "Game version: $version"
+
+      - name: Download NVGT compiler
+        shell: pwsh
+        run: |
+          $headers = @{ "Accept" = "application/vnd.github.v3+json" }
+          $release = Invoke-RestMethod -Uri "https://api.github.com/repos/samtupy/nvgt/releases/tags/latest" -Headers $headers
+          $winAsset = $release.assets | Where-Object { $_.name -match '\.exe$' } | Select-Object -First 1
+          if (-not $winAsset) {
+            Write-Error "Could not find NVGT Windows installer in the latest release"
+            exit 1
+          }
+          Write-Host "Downloading NVGT: $($winAsset.name) ($([math]::Round($winAsset.size / 1MB, 1)) MB)"
+          Invoke-WebRequest -Uri $winAsset.browser_download_url -OutFile "nvgt_setup.exe"
+
+      - name: Extract NVGT compiler
+        shell: pwsh
+        run: |
+          Write-Host "Extracting NVGT with 7-Zip..."
+          7z x nvgt_setup.exe -onvgt_extracted -y | Select-Object -Last 5
+          $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" | Select-Object -First 1
+          if (-not $nvgtc) {
+            Write-Host "7z extraction did not find nvgtc.exe, trying silent installer..."
+            Start-Process -FilePath "nvgt_setup.exe" -ArgumentList "/S", "/D=$pwd\nvgt_extracted" -Wait -NoNewWindow
+            $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" | Select-Object -First 1
+          }
+          if (-not $nvgtc) {
+            Write-Error "Could not find nvgtc.exe after extraction"
+            exit 1
+          }
+          Write-Host "Found NVGT compiler at: $($nvgtc.FullName)"
+          echo "NVGTC=$($nvgtc.FullName)" >> $env:GITHUB_ENV
+
+      - name: Compile server
+        shell: pwsh
+        run: |
+          Write-Host "Compiling Ultra World Server..."
+          Push-Location server
+          & "$env:NVGTC" uwserver.nvgt -q
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Server compilation failed"
+            exit 1
+          }
+          Pop-Location
+          if (Test-Path "server/uwserver.exe") {
+            Write-Host "Server compiled successfully: uwserver.exe"
+          } else {
+            Write-Error "Server executable not found after compilation"
+            exit 1
+          }
+
+      - name: Compile client
+        shell: pwsh
+        run: |
+          Write-Host "Compiling Ultra World Client..."
+          Push-Location client
+          & "$env:NVGTC" includes.nvgt -o uw.exe -q
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Client compilation failed"
+            exit 1
+          }
+          Pop-Location
+          if (Test-Path "client/uw.exe") {
+            Write-Host "Client compiled successfully: uw.exe"
+          } else {
+            Write-Error "Client executable not found after compilation"
+            exit 1
+          }
+
+      - name: Package release
+        shell: pwsh
+        run: |
+          $version = "${{ steps.version.outputs.VERSION }}"
+          $zipName = "UltraWorld-v${version}.zip"
+          $stagingDir = "UltraWorld"
+
+          # Create staging directory
+          New-Item -ItemType Directory -Path $stagingDir -Force | Out-Null
+
+          # Copy launcher scripts
+          Copy-Item "launch_ultraworld.bat" "$stagingDir/"
+          Copy-Item "start_server.bat" "$stagingDir/"
+          Copy-Item "start_client.bat" "$stagingDir/"
+
+          # Copy server files
+          New-Item -ItemType Directory -Path "$stagingDir/server" -Force | Out-Null
+          Copy-Item "server/uwserver.exe" "$stagingDir/server/"
+          if (Test-Path "server/maps") {
+            Copy-Item "server/maps" "$stagingDir/server/maps" -Recurse
+          }
+          if (Test-Path "server/changelogs") {
+            Copy-Item "server/changelogs" "$stagingDir/server/changelogs" -Recurse
+          }
+
+          # Copy client files
+          New-Item -ItemType Directory -Path "$stagingDir/client" -Force | Out-Null
+          Copy-Item "client/uw.exe" "$stagingDir/client/"
+          if (Test-Path "client/docs") {
+            Copy-Item "client/docs" "$stagingDir/client/docs" -Recurse
+          }
+          if (Test-Path "client/uw.json") {
+            Copy-Item "client/uw.json" "$stagingDir/client/"
+          }
+
+          # Copy license
+          if (Test-Path "LICENSE") {
+            Copy-Item "LICENSE" "$stagingDir/"
+          }
+
+          # Create zip
+          Compress-Archive -Path "$stagingDir/*" -DestinationPath $zipName -Force
+          $size = [math]::Round((Get-Item $zipName).Length / 1MB, 2)
+          Write-Host "Created release package: $zipName ($size MB)"
+          echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.TAG }}
+          name: Ultra World ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Ultra World ${{ steps.version.outputs.VERSION }}
+
+            ### Quick Start
+            1. Download `UltraWorld-v${{ steps.version.outputs.VERSION }}.zip` below
+            2. Extract the zip file
+            3. Run `launch_ultraworld.bat` to start both server and client
+               - Or run `start_server.bat` to host a server for friends
+               - Or run `start_client.bat` to just launch the game client
+
+            ### Hosting a Server for Friends
+            1. Run `start_server.bat` - the server starts on port **6200**
+            2. Share your IP address with friends
+            3. Friends run `start_client.bat` and connect to your IP
+
+            ### Playing Online
+            Run `start_client.bat` to connect to the official Ultra World server.
+
+            *Built from commit ${{ github.sha }}*
+          files: ${{ env.ZIP_NAME }}
+          draft: false
+          prerelease: false
+          make_latest: true
