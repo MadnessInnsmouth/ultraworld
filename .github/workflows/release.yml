@@ -59,6 +59,9 @@ jobs:
           Write-Host "Step 2: Recursively extracting archives..."
           New-Item -ItemType Directory -Path "nvgt_extracted" -Force | Out-Null
           
+          # Maximum recursion depth to prevent infinite loops
+          $MAX_DEPTH = 5
+          
           function Extract-Recursively {
             param(
               [string]$SourceDir,
@@ -73,8 +76,9 @@ jobs:
             foreach ($file in $files) {
               Write-Host "${indent}Trying to extract: $($file.Name)"
               
-              # Try to extract with 7z
-              $tempOutput = Join-Path $TargetDir "temp_$($file.Name)_$Level"
+              # Try to extract with 7z to a unique temporary directory
+              $timestamp = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+              $tempOutput = Join-Path $TargetDir "temp_$($file.Name)_${Level}_${timestamp}"
               $extractResult = & 7z x $file.FullName -o"$tempOutput" -y 2>&1
               
               if ($LASTEXITCODE -eq 0) {
@@ -90,7 +94,7 @@ jobs:
                 }
                 
                 # Recursively extract nested archives (limit depth to prevent infinite loops)
-                if ($Level -lt 5) {
+                if ($Level -lt $MAX_DEPTH) {
                   $found = Extract-Recursively -SourceDir $tempOutput -TargetDir $TargetDir -Level ($Level + 1)
                   if ($found) { return $true }
                 }
