@@ -44,30 +44,47 @@ jobs:
           }
           Write-Host "Downloading NVGT: $($winAsset.name) ($([math]::Round($winAsset.size / 1MB, 1)) MB)"
           Invoke-WebRequest -Uri $winAsset.browser_download_url -OutFile "nvgt_setup.exe"
+          
+          # Verify the download
+          if (-not (Test-Path "nvgt_setup.exe")) {
+            Write-Error "Download failed: nvgt_setup.exe not found"
+            exit 1
+          }
+          $fileSize = (Get-Item "nvgt_setup.exe").Length
+          Write-Host "Downloaded file size: $([math]::Round($fileSize / 1MB, 1)) MB"
+          if ($fileSize -lt 1MB) {
+            Write-Error "Downloaded file is too small (likely incomplete or corrupted)"
+            exit 1
+          }
 
-      - name: Extract NVGT compiler
+      - name: Install NVGT compiler
         shell: pwsh
         run: |
-          Write-Host "Extracting NVGT Inno Setup installer using 7-Zip..."
+          Write-Host "Installing NVGT using silent installation..."
           
-          # Use 7-Zip to extract the Inno Setup installer (pre-installed on Windows runners)
-          # 7-Zip can handle Inno Setup installers more reliably than innoextract
-          & "C:\Program Files\7-Zip\7z.exe" x nvgt_setup.exe -onvgt_extracted -y
+          # Run the Inno Setup installer in silent mode
+          # /VERYSILENT = no messages, /SUPPRESSMSGBOXES = no message boxes
+          # /NORESTART = don't restart, /SP- = skip startup prompt
+          # /DIR = installation directory
+          $installDir = Join-Path $PWD "nvgt"
+          Write-Host "Installing to: $installDir"
           
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "Failed to extract NVGT installer with 7-Zip"
+          $process = Start-Process -FilePath "nvgt_setup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/SP-", "/DIR=`"$installDir`"" -Wait -PassThru
+          
+          if ($process.ExitCode -ne 0) {
+            Write-Error "NVGT installation failed with exit code: $($process.ExitCode)"
             exit 1
           }
           
-          Write-Host "Extraction completed. Searching for nvgtc.exe..."
+          Write-Host "Installation completed. Searching for nvgtc.exe..."
           
-          # Search for nvgtc.exe in the extracted files
-          $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          # Search for nvgtc.exe in the installation directory
+          $nvgtc = Get-ChildItem -Path $installDir -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
           
           if (-not $nvgtc) {
-            Write-Error "Could not find nvgtc.exe after extraction"
-            Write-Host "`nContents of nvgt_extracted (first 100 items):"
-            Get-ChildItem -Path "nvgt_extracted" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 100 FullName | Format-Table
+            Write-Error "Could not find nvgtc.exe after installation"
+            Write-Host "`nContents of installation directory (first 100 items):"
+            Get-ChildItem -Path $installDir -Recurse -ErrorAction SilentlyContinue | Select-Object -First 100 FullName | Format-Table
             exit 1
           }
           
