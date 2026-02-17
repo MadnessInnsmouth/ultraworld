@@ -47,17 +47,53 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Extracting NVGT with 7-Zip..."
-          7z x nvgt_setup.exe -onvgt_extracted -y | Select-Object -Last 5
-          $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" | Select-Object -First 1
+          7z x nvgt_setup.exe -onvgt_extracted -y
+          Write-Host "7z extraction complete. Searching for nvgtc.exe..."
+          $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          
           if (-not $nvgtc) {
-            Write-Host "7z extraction did not find nvgtc.exe, trying silent installer..."
-            Start-Process -FilePath "nvgt_setup.exe" -ArgumentList "/S", "/D=$pwd\nvgt_extracted" -Wait -NoNewWindow
-            $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" | Select-Object -First 1
+            Write-Host "7z extraction did not find nvgtc.exe, trying silent installer with timeout..."
+            
+            # Create a job to run the installer with timeout
+            $job = Start-Job -ScriptBlock {
+              param($setupPath, $extractPath)
+              Start-Process -FilePath $setupPath -ArgumentList "/S", "/D=$extractPath" -Wait -NoNewWindow
+            } -ArgumentList "$pwd\nvgt_setup.exe", "$pwd\nvgt_extracted"
+            
+            # Wait for up to 120 seconds (2 minutes)
+            $timeout = 120
+            Write-Host "Waiting up to $timeout seconds for installer to complete..."
+            $completed = Wait-Job $job -Timeout $timeout
+            
+            if (-not $completed) {
+              Write-Host "Installer timed out after $timeout seconds. Stopping installer process..."
+              Stop-Job $job
+              Remove-Job $job
+              
+              # Try extracting with different archive types as fallback
+              Write-Host "Attempting alternative extraction with different archive types..."
+              
+              # Try as NSIS installer first
+              7z x nvgt_setup.exe -o"nvgt_extracted_alt" -y -t#
+              
+              $nvgtc = Get-ChildItem -Path "nvgt_extracted_alt" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+              if ($nvgtc) {
+                Write-Host "Found nvgtc.exe using alternative extraction!"
+              }
+            } else {
+              Remove-Job $job
+              Write-Host "Installer completed. Searching for nvgtc.exe..."
+              $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+            }
           }
+          
           if (-not $nvgtc) {
-            Write-Error "Could not find nvgtc.exe after extraction"
+            Write-Error "Could not find nvgtc.exe after all extraction attempts"
+            Write-Host "Contents of nvgt_extracted directories:"
+            Get-ChildItem -Path "nvgt_extracted*" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName | Format-Table
             exit 1
           }
+          
           Write-Host "Found NVGT compiler at: $($nvgtc.FullName)"
           echo "NVGTC=$($nvgtc.FullName)" >> $env:GITHUB_ENV
 
