@@ -29,6 +29,13 @@ jobs:
           echo "TAG=v${version}-${shortSha}" >> $env:GITHUB_OUTPUT
           echo "Game version: $version"
 
+      - name: Install innoextract
+        shell: pwsh
+        run: |
+          Write-Host "Installing innoextract via Chocolatey..."
+          choco install innoextract -y
+          Write-Host "innoextract installed successfully"
+
       - name: Download NVGT compiler
         shell: pwsh
         run: |
@@ -46,80 +53,23 @@ jobs:
       - name: Extract NVGT compiler
         shell: pwsh
         run: |
-          Write-Host "Extracting NVGT Inno Setup installer..."
+          Write-Host "Extracting NVGT Inno Setup installer using innoextract..."
           
-          # Step 1: Extract the Inno Setup installer wrapper to get embedded archives
-          Write-Host "Step 1: Extracting installer components..."
-          7z x nvgt_setup.exe -o"nvgt_temp" -y -t#
+          # Use innoextract to properly extract the Inno Setup installer
+          innoextract nvgt_setup.exe --output-dir nvgt_extracted
           
-          Write-Host "Installer components extracted. Contents:"
-          Get-ChildItem -Path "nvgt_temp" -Recurse | Select-Object FullName | Format-Table
-          
-          # Step 2: Recursively extract all potential archives
-          Write-Host "Step 2: Recursively extracting archives..."
-          New-Item -ItemType Directory -Path "nvgt_extracted" -Force | Out-Null
-          
-          # Maximum recursion depth to prevent infinite loops
-          $MAX_DEPTH = 5
-          
-          function Extract-Recursively {
-            param(
-              [string]$SourceDir,
-              [string]$TargetDir,
-              [int]$Level = 0
-            )
-            
-            $indent = "  " * $Level
-            Write-Host "${indent}Scanning $SourceDir..."
-            
-            $files = Get-ChildItem -Path $SourceDir -File -ErrorAction SilentlyContinue
-            foreach ($file in $files) {
-              Write-Host "${indent}Trying to extract: $($file.Name)"
-              
-              # Try to extract with 7z to a unique temporary directory
-              $timestamp = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
-              $tempOutput = Join-Path $TargetDir "temp_$($file.Name)_${Level}_${timestamp}"
-              $extractResult = & 7z x $file.FullName -o"$tempOutput" -y 2>&1
-              
-              if ($LASTEXITCODE -eq 0) {
-                Write-Host "${indent}  ✓ Successfully extracted $($file.Name)"
-                
-                # Check if this contains nvgtc.exe
-                $nvgtc = Get-ChildItem -Path $tempOutput -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
-                if ($nvgtc) {
-                  Write-Host "${indent}  ★ Found nvgtc.exe in $($file.Name)!"
-                  # Copy everything to the main extraction directory
-                  Copy-Item -Path "$tempOutput\*" -Destination $TargetDir -Recurse -Force
-                  return $true
-                }
-                
-                # Recursively extract nested archives (limit depth to prevent infinite loops)
-                if ($Level -lt $MAX_DEPTH) {
-                  $found = Extract-Recursively -SourceDir $tempOutput -TargetDir $TargetDir -Level ($Level + 1)
-                  if ($found) { return $true }
-                }
-                
-                # Copy extracted content to target
-                Copy-Item -Path "$tempOutput\*" -Destination $TargetDir -Recurse -Force
-              } else {
-                Write-Host "${indent}  ✗ Could not extract $($file.Name) (not an archive)"
-              }
-            }
-            
-            return $false
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Failed to extract NVGT installer with innoextract"
+            exit 1
           }
           
-          # Start recursive extraction
-          $found = Extract-Recursively -SourceDir "nvgt_temp" -TargetDir "nvgt_extracted"
+          Write-Host "Extraction completed. Searching for nvgtc.exe..."
           
-          # Step 3: Search for nvgtc.exe
-          Write-Host "Step 3: Searching for nvgtc.exe..."
+          # Search for nvgtc.exe in the extracted files
           $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
           
           if (-not $nvgtc) {
             Write-Error "Could not find nvgtc.exe after extraction"
-            Write-Host "`nContents of nvgt_temp:"
-            Get-ChildItem -Path "nvgt_temp" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName | Format-Table
             Write-Host "`nContents of nvgt_extracted (first 100 items):"
             Get-ChildItem -Path "nvgt_extracted" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 100 FullName | Format-Table
             exit 1
