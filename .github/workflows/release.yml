@@ -46,51 +46,54 @@ jobs:
       - name: Extract NVGT compiler
         shell: pwsh
         run: |
-          Write-Host "Extracting NVGT with 7-Zip..."
-          7z x nvgt_setup.exe -onvgt_extracted -y
-          Write-Host "7z extraction complete. Searching for nvgtc.exe..."
-          $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          Write-Host "Extracting NVGT Inno Setup installer..."
           
-          if (-not $nvgtc) {
-            Write-Host "7z extraction did not find nvgtc.exe, trying silent installer with timeout..."
+          # Step 1: Extract the Inno Setup installer wrapper to get embedded archives
+          Write-Host "Step 1: Extracting installer components..."
+          7z x nvgt_setup.exe -o"nvgt_temp" -y -t#
+          
+          Write-Host "Installer components extracted. Contents:"
+          Get-ChildItem -Path "nvgt_temp" -Recurse | Select-Object FullName | Format-Table
+          
+          # Step 2: Look for embedded archives (app.7z, app-64.bin, etc.)
+          Write-Host "Step 2: Looking for embedded archives..."
+          $embeddedArchives = Get-ChildItem -Path "nvgt_temp" -File | Where-Object { 
+            $_.Extension -in @('.7z', '.bin') -or $_.Name -like 'app*'
+          }
+          
+          if ($embeddedArchives) {
+            Write-Host "Found embedded archives:"
+            $embeddedArchives | ForEach-Object { Write-Host "  - $($_.Name)" }
             
-            # Create a job to run the installer with timeout
-            $job = Start-Job -ScriptBlock {
-              param($setupPath, $extractPath)
-              Start-Process -FilePath $setupPath -ArgumentList "/S", "/D=$extractPath" -Wait -NoNewWindow
-            } -ArgumentList "$pwd\nvgt_setup.exe", "$pwd\nvgt_extracted"
-            
-            # Wait for up to 120 seconds (2 minutes)
-            $timeout = 120
-            Write-Host "Waiting up to $timeout seconds for installer to complete..."
-            $completed = Wait-Job $job -Timeout $timeout
-            
-            if (-not $completed) {
-              Write-Host "Installer timed out after $timeout seconds. Stopping installer process..."
-              Stop-Job $job
-              Remove-Job $job
-              
-              # Try extracting with different archive types as fallback
-              Write-Host "Attempting alternative extraction with different archive types..."
-              
-              # Try as NSIS installer first
-              7z x nvgt_setup.exe -o"nvgt_extracted_alt" -y -t#
-              
-              $nvgtc = Get-ChildItem -Path "nvgt_extracted_alt" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
-              if ($nvgtc) {
-                Write-Host "Found nvgtc.exe using alternative extraction!"
+            # Extract each archive
+            foreach ($archive in $embeddedArchives) {
+              Write-Host "Extracting $($archive.Name)..."
+              7z x $archive.FullName -o"nvgt_extracted" -y
+            }
+          } else {
+            Write-Host "No standard embedded archives found. Trying to extract all files as potential archives..."
+            $allFiles = Get-ChildItem -Path "nvgt_temp" -File
+            foreach ($file in $allFiles) {
+              Write-Host "Attempting to extract $($file.Name)..."
+              $extractOutput = & 7z x $file.FullName -o"nvgt_extracted" -y 2>&1
+              if ($LASTEXITCODE -eq 0) {
+                Write-Host "  Successfully extracted $($file.Name)"
+              } else {
+                Write-Host "  Could not extract $($file.Name) (may not be an archive)"
               }
-            } else {
-              Remove-Job $job
-              Write-Host "Installer completed. Searching for nvgtc.exe..."
-              $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
             }
           }
           
+          # Step 3: Search for nvgtc.exe
+          Write-Host "Step 3: Searching for nvgtc.exe..."
+          $nvgtc = Get-ChildItem -Path "nvgt_extracted" -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          
           if (-not $nvgtc) {
-            Write-Error "Could not find nvgtc.exe after all extraction attempts"
-            Write-Host "Contents of nvgt_extracted directories:"
-            Get-ChildItem -Path "nvgt_extracted*" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName | Format-Table
+            Write-Error "Could not find nvgtc.exe after extraction"
+            Write-Host "`nContents of nvgt_temp:"
+            Get-ChildItem -Path "nvgt_temp" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName | Format-Table
+            Write-Host "`nContents of nvgt_extracted:"
+            Get-ChildItem -Path "nvgt_extracted" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName | Format-Table
             exit 1
           }
           
