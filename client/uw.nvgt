@@ -651,7 +651,7 @@ void playermapmenu(string[] users) {
 		}
 		if (counter > 0) {
 			if (key_pressed(KEY_F1) and users[counter] != "" and counter <= users.length() - 1) {
-				speak(users[counter] + " copyed to clipboard");
+				speak(users[counter] + " copied to clipboard");
 				clipboard_set_text(users[counter]);
 			}
 			if (key_pressed(KEY_F2) and users[counter] != "" and counter <= users.length() - 1) {
@@ -829,7 +829,7 @@ void playermenu(string[] users) {
 				sendcommand("/respond " + u[0] + " " + rr);
 				continue;
 			}
-			speak(u[0] + " copyed to clipboard");
+			speak(u[0] + " copied to clipboard");
 			clipboard_set_text(u[0]);
 		}
 		if (key_pressed(KEY_F2) and users[counter] != "" and counter <= users.length() - 1) {
