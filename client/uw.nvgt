@@ -1,7 +1,6 @@
 #pragma asset "docs"
 #pragma asset "unzip.bat"
 #pragma plugin legacy_sound
-#pragma namespace sound upcoming
 #pragma plugin nvgt_curl
 string[] store_owners_list;
 string[] player_stores_list;
