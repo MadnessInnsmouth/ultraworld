@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"oven@[] ovens(0);
+oven@[] ovens(0);
 class oven {
 	int minx, maxx, miny, maxy, minz, maxz, descarga = 0;
 	string map;

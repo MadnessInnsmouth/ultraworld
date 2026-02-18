@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"bool dmoving;
+bool dmoving;
 door@[] doors(0);
 class door {
 	string ds, ds2, ds3, ds4;

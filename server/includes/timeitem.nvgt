@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"timeitem@[] timeitems(0);
+timeitem@[] timeitems(0);
 class timeitem {
 	int amount = 1;
 	string itemtype;

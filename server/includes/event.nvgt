@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"event@[]events(0);
+event@[]events(0);
 class event {
 	string eventname = "untitled event";
 	string eventid;

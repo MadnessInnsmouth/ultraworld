@@ -1,4 +1,3 @@
-#include "bgt_compat.nvgt"
 weapon@[] weapons(0);
 class weapon {
 	double x, y, z, dir, ddir;

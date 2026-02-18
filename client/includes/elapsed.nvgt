@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"class time_elapsed {
+class time_elapsed {
 timer@handle;
 int milliseconds;
 int seconds;

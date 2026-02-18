@@ -17,7 +17,6 @@
 #include "includes/downloader.nvgt"
 #include "includes/reverb.nvgt"
 #include "includes/staff.nvgt"
-#include "bgt_compat.nvgt"
 #include "includes/adlfile.nvgt"
 #include "includes/audio_player.nvgt"
 #include "includes/automover.nvgt"

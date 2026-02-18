@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"class savedata
+class savedata
 {
 	//internal variables for the class.
 	string key;

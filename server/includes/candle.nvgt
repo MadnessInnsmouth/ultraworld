@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"candle@[] candles(0);
+candle@[] candles(0);
 class candle {
 	int x, y, z, on;
 	mapdata@map;

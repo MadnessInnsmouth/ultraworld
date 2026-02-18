@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"shower@[] showers(0);
+shower@[] showers(0);
 class shower {
 	int minx, maxx, miny, maxy, minz, maxz;
 	bool aberta = false;

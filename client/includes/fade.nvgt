@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"/*
+/*
 The symplest fade in and out code in 1 function
 */
 

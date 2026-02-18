@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"player@[] players(0);
+player@[] players(0);
 class player {
 	int x;
 	int y;

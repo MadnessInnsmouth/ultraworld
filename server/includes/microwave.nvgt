@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"microwave@[] microwaves(0);
+microwave@[] microwaves(0);
 class microwave {
 	int x, y, z, health, battery, foodonit, on, readytotake;
 	string id, map, owner, hitby = "nothing", midsound, foodtype;

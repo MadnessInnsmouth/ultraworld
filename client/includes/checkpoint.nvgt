@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"timer cptimer, cpsoundtimer;
+timer cptimer, cpsoundtimer;
 checkpoint@[]cppoints(0);
 class checkpoint {
 	int x, y, z;

@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"dictionary compjails;
+dictionary compjails;
 dictionary ipjails;
 bool comp_jail(string username) {
 	int jailindex = get_player_index_from(username);

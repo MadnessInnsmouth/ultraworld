@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"arena@[] arenas(0);
+arena@[] arenas(0);
 class arena {
 	double length, started, joined, neededfee, fee;
 	string id, map, owner, type, item;

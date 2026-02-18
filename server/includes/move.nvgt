@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"void move(player@p, string message)
+void move(player@p, string message)
 {
 	string[] parsed = string_split(message, " ", true);
 	if (parsed[0] == "bmove_to" and parsed.length() > 3) {

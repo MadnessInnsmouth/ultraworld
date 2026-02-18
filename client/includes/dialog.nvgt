@@ -1,4 +1,3 @@
-#include "bgt_compat.nvgt"
 dialog@[] dialogs(0);
 class dialog {
 	int minx, maxx, miny, maxy, minz, maxz;

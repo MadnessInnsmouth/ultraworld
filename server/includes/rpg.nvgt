@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"rpg@[]rpgs(0);
+rpg@[]rpgs(0);
 class rpg {
 	double x, y, z;
 	int dir = 0;

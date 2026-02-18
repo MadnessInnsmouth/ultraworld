@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"string seconds;
+string seconds;
 string included;
 string included2;
 string time;

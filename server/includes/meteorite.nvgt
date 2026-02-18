@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"meteorite@[] meteorites(0);
+meteorite@[] meteorites(0);
 class meteorite {
 	string map;
 	int seconds = 40000;

@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"clock@[] clocks(0);
+clock@[] clocks(0);
 class clock {
 	int minx, maxx, miny, maxy, minz, maxz;
 	string map, text;

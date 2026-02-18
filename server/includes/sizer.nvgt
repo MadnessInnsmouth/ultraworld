@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"string get_file_size(string filename)
+string get_file_size(string filename)
 {
 	string size;
 	file sizer;

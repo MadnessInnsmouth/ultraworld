@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"house@[] houses(0);
+house@[] houses(0);
 class house {
 	int x, y, z, code, health, hackmode = -1, hacktime, canbell = 0, security_boosts = 0, dooropen = 0;
 	string id, map, housemap, owner, hitby = "nothing", hacker = "noone", bellsound, itemdeleted = "conex", dooropener = "noone";

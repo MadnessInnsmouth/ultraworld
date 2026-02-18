@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"dynamic_menu dmi;
+dynamic_menu dmi;
 string create_menu(string[]items, string open, string return_if_press_escape) {
 	int r;
 	setupmenu();

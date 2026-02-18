@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"grenade@[] grenades(0);
+grenade@[] grenades(0);
 class grenade {
 	timer grenadetimer;
 	player@owner;

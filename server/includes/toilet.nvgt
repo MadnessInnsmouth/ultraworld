@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"toilet@[] toilets(0);
+toilet@[] toilets(0);
 class toilet {
 	int minx, maxx, miny, maxy, minz, maxz, descarga = 0;
 	string map;

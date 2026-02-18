@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"timepacket@[] timepackets(0);
+timepacket@[] timepackets(0);
 funcdef void tpcb(timepacket@ tin, string userdata);
 class timepacket {
 	int id = 0;

@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"ccalendar@[] ccalendars(0);
+ccalendar@[] ccalendars(0);
 class ccalendar {
 	int minx, maxx, miny, maxy, minz, maxz;
 	string map, text;

@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"dictionary compbans;
+dictionary compbans;
 dictionary ipbans;
 bool comp_ban(string username) {
 	int banindex = get_player_index_from(username);

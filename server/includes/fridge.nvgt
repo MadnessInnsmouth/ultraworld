@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"fridge@[]fridges(0);
+fridge@[]fridges(0);
 class fridge {
 	double x, y, z, health;
 	string id, map, owner, hitby = "nothing", mid;

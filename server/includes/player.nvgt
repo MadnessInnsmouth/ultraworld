@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"player@[] players(0);
+player@[] players(0);
 #include "inventory.nvgt"
 string[] bones = {"head", "knee", "left hand", "right hand", "arm", "forearm", "thumb", "ankle", "back", "elbow", "hip", "waist", "chest", "chin", "left foot", "right foot", "left leg", "right leg", "neck", "nose", "shoulder", "stomach", "left wrist", "right wrist", "forehead", "thigh", "shin", "instep", "jaw", "jawbone", "mandible", "cheekbone"};
 string[] randsounds = {"burp" + random(1, 3) + ""};

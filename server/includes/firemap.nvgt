@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"firemap@[] firemaps(0);
+firemap@[] firemaps(0);
 class firemap {
 	int minx, maxx, miny, maxy, minz, maxz;
 	string map;

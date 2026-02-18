@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"trashcan@[] trashcans(0);
+trashcan@[] trashcans(0);
 class trashcan {
 	int minx, maxx, miny, maxy, minz, maxz, descarga = 0;
 	string map;

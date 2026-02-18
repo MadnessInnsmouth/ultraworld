@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"steam@[]steams(0);
+steam@[]steams(0);
 class steam {
 	double x, y, z, health, on = 0;
 	string id, map, owner, hitby = "nothing", mid;

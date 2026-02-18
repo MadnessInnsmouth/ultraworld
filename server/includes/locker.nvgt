@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"int hack_successtime=13841;
+int hack_successtime=13841;
 int hack_failedtime = 19006;
 locker@[]lockers(0);
 class locker {

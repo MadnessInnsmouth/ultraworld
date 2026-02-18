@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"class preload
+class preload
 {
 	sound@ handle;
 	string name;

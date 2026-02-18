@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"censor_bomb@[] censor_bombs(0);
+censor_bomb@[] censor_bombs(0);
 class censor_bomb {
 	player@owner;
 	int z;

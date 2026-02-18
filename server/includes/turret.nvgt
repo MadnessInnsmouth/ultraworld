@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"turret@[] turrets(0);
+turret@[] turrets(0);
 class turret {
 	int x, y, z, health = 5000, id = random(111, 999), clipsize = 50, chargelevel = 100;
 	string hitby;

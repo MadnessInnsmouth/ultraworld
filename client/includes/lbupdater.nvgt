@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"void lbcfu(bool frommainmenu=false)
+void lbcfu(bool frommainmenu=false)
 {
 	string latest = url_get("http://aew-game.com/aew_update/lbaewv.txt");
 	double lv = string_to_number(latest);

@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"class progress_bar
+class progress_bar
 {
 	progress_bar() {
 		synth.reset();

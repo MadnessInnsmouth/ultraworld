@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"class key_hold
+class key_hold
 {
 	bool status;
 	short key_flag = 0;
