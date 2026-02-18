@@ -88,7 +88,7 @@ jobs:
           Write-Host "Installation completed. Waiting for filesystem to sync..."
           Start-Sleep -Seconds 3
           
-          Write-Host "Searching for nvgtc.exe..."
+          Write-Host "Searching for nvgt.exe..."
           
           # List contents for debugging (showing first 100 items should cover typical NVGT installation)
           Write-Host "`nInstallation directory structure:"
@@ -98,8 +98,8 @@ jobs:
             Write-Host "ERROR: Installation directory does not exist!"
           }
           
-          # Search for nvgtc.exe in the installation directory
-          $nvgtc = Get-ChildItem -Path $installDir -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          # Search for nvgt.exe in the installation directory
+          $nvgtc = Get-ChildItem -Path $installDir -Recurse -Filter "nvgt.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
           
           # If not found in custom directory, check common install locations
           if (-not $nvgtc) {
@@ -107,14 +107,14 @@ jobs:
             $programFiles = @($env:ProgramFiles, ${env:ProgramFiles(x86)})
             foreach ($pf in $programFiles) {
               if ($pf -and (Test-Path $pf)) {
-                $nvgtc = Get-ChildItem -Path $pf -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+                $nvgtc = Get-ChildItem -Path $pf -Recurse -Filter "nvgt.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
                 if ($nvgtc) { break }
               }
             }
           }
           
           if (-not $nvgtc) {
-            Write-Error "Could not find nvgtc.exe after installation"
+            Write-Error "Could not find nvgt.exe after installation"
             Write-Host "`nInstallation log (last 100 lines):"
             if (Test-Path $logFile) {
               Get-Content $logFile -Tail 100
