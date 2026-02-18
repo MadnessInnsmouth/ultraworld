@@ -1,4 +1,6 @@
 // Include files.
+// BGT Compatibility functions
+#include "includes/bgt_compat_funcs.nvgt"
 // Getting tile.
 #include "includes/gettile.nvgt"
 #include "includes/netloop.nvgt"
