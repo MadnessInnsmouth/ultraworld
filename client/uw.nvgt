@@ -2,6 +2,8 @@
 #pragma asset "unzip.bat"
 #pragma plugin nvgt_curl
 // Dummy instance class for compatibility - instance class not available in current NVGT version
+// Note: The is_already_running property always returns false, which means multiple instances
+// can run simultaneously. This is a limitation of the dummy implementation.
 class instance {
 	bool is_already_running = false;
 	instance() {}

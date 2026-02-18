@@ -5,6 +5,9 @@
  This class provides a convenient way of managing sounds in an environment, both with 1 and 2 dimensions. It uses the functions found in sound_positioning.bgt to do the actual sound adjustments, so modifying these functions will affect the entire system. The sound_pool_item class holds all the information necessary for one single sound in the game world. Note that you should not make instances of the sound_pool_item class directly but always use the methods and properties provided in the sound_pool class.
 */
 // Dummy pack class for compatibility - pack class not available in current NVGT version
+// Note: file_exists() always returns false and open() always fails, which means
+// pack-based file operations are non-functional. Sound files will be loaded from
+// the filesystem instead of from pack files.
 class pack {
 	bool file_exists(string filename) { return false; }
 	bool open(string filename, int mode) { return false; }
