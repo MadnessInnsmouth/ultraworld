@@ -143,10 +143,10 @@ class sound_pool_item {
 				// handle.set_position(listener_x, 0, 0);
 				return;
 			}
+			// Boundary clamping intentionally disabled until replacement API implemented
+			// Previously: sounds outside range were clamped to delta_left/delta_right boundaries
+			// Now: sounds outside range will have no special positioning (may need volume fade)
 			// TODO: Implement boundary handling when listener is outside range
-			// Previously used set_position for left/right boundary conditions
-			// if (listener_x < delta_left) handle.set_position(delta_left, 0, 0);
-			// if (listener_x > delta_right) handle.set_position(delta_right, 0, 0);
 			return;
 		}
 		vector r_listener(listener_x, listener_y, listener_z);
