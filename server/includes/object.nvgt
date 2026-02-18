@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"obj@[] objs(0);
+obj@[] objs(0);
 class obj {
 	int x;
 	int y;

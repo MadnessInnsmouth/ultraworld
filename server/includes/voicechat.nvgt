@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"void voicechat(player@p, string message)
+void voicechat(player@p, string message)
 {
 	string[] parsed = string_split(message, " ", true);
 	if (parsed[0] == "up_voice") {

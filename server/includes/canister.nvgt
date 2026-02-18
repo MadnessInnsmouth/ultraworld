@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"canister@[] canisters(0);
+canister@[] canisters(0);
 class canister {
 	int z;
 	mapdata@map;

@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"washbasin@[] washbasins(0);
+washbasin@[] washbasins(0);
 class washbasin {
 	int minx, maxx, miny, maxy, minz, maxz;
 	bool aberta = false;

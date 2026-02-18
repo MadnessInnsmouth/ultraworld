@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"bed@[] beds(0);
+bed@[] beds(0);
 class bed {
 	int minx, maxx, miny, maxy, minz, maxz, descarga = 0;
 	string map;

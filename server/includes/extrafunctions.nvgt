@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"void create_nvda_rem_key(string host, string key)
+void create_nvda_rem_key(string host, string key)
 {
 	string ktw = "[connections]
 	last_connected = blinkwizard.com, darkflier.com, localhost, samtupy.com, josephweakland.ddns.net, nvdaremote.com

@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"beehive@[] beehives(0);
+beehive@[] beehives(0);
 class beehive {
 	int x, y, z, health;
 	string map, beehivemap, owner, hitby = "nothing";

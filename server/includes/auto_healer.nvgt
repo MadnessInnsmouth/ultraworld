@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"auto_healer@[] auto_healers(0);
+auto_healer@[] auto_healers(0);
 class auto_healer {
 	int x, y, z;
 	timer healtimer, uptimer, stimer;

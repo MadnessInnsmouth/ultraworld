@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"fire@[]fires(0);
+fire@[]fires(0);
 class fire {
 	int x;
 	int y;

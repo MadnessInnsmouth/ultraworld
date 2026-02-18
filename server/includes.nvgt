@@ -3,7 +3,6 @@
 #include "includes/gettile.nvgt"
 #include "includes/netloop.nvgt"
 #include "includes/settings.nvgt"
-#include "bgt_compat.nvgt" // For BGT code compatibility.
 #include "includes/netfunct.nvgt"
 #include "includes/json.nvgt"
 #include "includes/chartime.nvgt"

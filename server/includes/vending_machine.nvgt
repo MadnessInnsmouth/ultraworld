@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"vending_machine@[]vending_machines(0);
+vending_machine@[]vending_machines(0);
 class vending_machine {
 	int x, y, z;
 	string map, dropitem, mid;

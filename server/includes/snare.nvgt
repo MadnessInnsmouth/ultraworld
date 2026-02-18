@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"snare@[] snares(0);
+snare@[] snares(0);
 class snare {
 	player@owner;
 	int z;

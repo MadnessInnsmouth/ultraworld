@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"string[] actable_items={"censor_bomb","time_bomb","nuclear_bomb","mine","snare","antibiotic_canister","gas_canister","gas_bottle","air_canister","energogenic_canister","energy_reducing_canister","thirsting_canister","starvogenic_canister","pathogenic_canister","experience_canister","espionage_camera"};
+string[] actable_items={"censor_bomb","time_bomb","nuclear_bomb","mine","snare","antibiotic_canister","gas_canister","gas_bottle","air_canister","energogenic_canister","energy_reducing_canister","thirsting_canister","starvogenic_canister","pathogenic_canister","experience_canister","espionage_camera"};
 item_carier@[] item_cariers(0);
 class item_carier {
 	int x;

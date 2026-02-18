@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"compid_handler@[]comphandles(0);
+compid_handler@[]comphandles(0);
 class compid_handler {
 	string compid;
 	string playername;

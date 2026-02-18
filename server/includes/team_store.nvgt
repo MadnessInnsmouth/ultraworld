@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"team_store@[] team_stores;
+team_store@[] team_stores;
 class team_store {
 	string[] item_names;
 	double[] prices;

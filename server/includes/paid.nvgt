@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"paid_account@[]paid_accounts(0);
+paid_account@[]paid_accounts(0);
 class paid_account {
 	double time = 2592000000;
 	timer paid_accounttimer;

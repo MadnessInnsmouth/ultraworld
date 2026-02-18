@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"mmotor@[] mmotors(0);
+mmotor@[] mmotors(0);
 class mmotor {
 	double x, y, z, health, fuel = 100;
 	string id, type, owner, map, hitby = "nothing";

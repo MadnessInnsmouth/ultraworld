@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"temporary_ban@[]temporary_bans(0);
+temporary_ban@[]temporary_bans(0);
 class temporary_ban {
 	int time;
 	timer temporary_bantimer;

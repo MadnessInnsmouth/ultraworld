@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"fan@[]fans(0);
+fan@[]fans(0);
 class fan {
 	double x, y, z, health, on = 0;
 	string id, map, owner, hitby = "nothing", mid;

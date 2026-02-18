@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"mine@[] mines(0);
+mine@[] mines(0);
 class mine {
 	player@owner;
 	int z;

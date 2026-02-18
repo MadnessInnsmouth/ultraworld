@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"air_conditioner@[]air_conditioners(0);
+air_conditioner@[]air_conditioners(0);
 class air_conditioner {
 	double x, y, z, health, on = 0;
 	string id, map, owner, hitby = "nothing", mid;

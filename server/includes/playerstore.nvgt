@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"playerstore@[] playerstores(0);
+playerstore@[] playerstores(0);
 class playerstore {
 	int x, y, z, health;
 	string map, playerstoremap, owner, hitby = "nothing", name;

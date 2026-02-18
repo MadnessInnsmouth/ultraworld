@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"villa@[] villas(0);
+villa@[] villas(0);
 class villa {
 	int x, y, z, code, health, hackmode = -1, hacktime, canbell = 0, security_boosts = 0;
 	string id, map, villamap, owner, hitby = "nothing", hacker = "noone", bellsound, itemdeleted = "villa";

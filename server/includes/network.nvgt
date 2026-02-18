@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"send_through_time []stt;
+send_through_time []stt;
 class send_through_time {
 	int time;
 	timer send_timer;

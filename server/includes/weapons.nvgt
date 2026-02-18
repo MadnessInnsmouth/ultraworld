@@ -1,4 +1,3 @@
-#include "bgt_compat.nvgt"
 void weapon_e(player@p, string message) {
 	string[] parsed = string_split(message, " ", true);
 	if (parsed[0] == "fire") {
