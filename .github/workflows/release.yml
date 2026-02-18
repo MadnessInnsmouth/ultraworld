@@ -84,15 +84,16 @@ jobs:
           }
           
           # Wait a moment for filesystem operations to complete
+          # Inno Setup may need time to finalize file operations after the process exits
           Write-Host "Installation completed. Waiting for filesystem to sync..."
           Start-Sleep -Seconds 3
           
           Write-Host "Searching for nvgtc.exe..."
           
-          # List contents for debugging
+          # List contents for debugging (showing first 100 items should cover typical NVGT installation)
           Write-Host "`nInstallation directory structure:"
           if (Test-Path $installDir) {
-            Get-ChildItem -Path $installDir -Recurse -ErrorAction SilentlyContinue | Select-Object -First 50 FullName | Format-Table -AutoSize
+            Get-ChildItem -Path $installDir -Recurse -ErrorAction SilentlyContinue | Select-Object -First 100 FullName | Format-Table -AutoSize
           } else {
             Write-Host "ERROR: Installation directory does not exist!"
           }
