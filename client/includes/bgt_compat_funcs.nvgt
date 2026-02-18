@@ -243,6 +243,23 @@ bool string_is_digits(string str) {
 	return true;
 }
 
+// Check if a string contains only alphabetic characters (A-Z, a-z)
+// Returns false for empty strings to match BGT behavior
+bool string_is_alphabetic(string str) {
+	if (str.length() == 0) return false;
+	
+	for (uint i = 0; i < str.length(); i++) {
+		string current_char = str[i];
+		// Check if character is between 'A' and 'Z' or 'a' and 'z'
+		bool is_upper = (current_char >= "A" && current_char <= "Z");
+		bool is_lower = (current_char >= "a" && current_char <= "z");
+		if (!is_upper && !is_lower) {
+			return false;
+		}
+	}
+	return true;
+}
+
 // Sound storage compatibility - track current sound pack
 // In BGT, this was used to manage which pack file sounds were loaded from
 string _current_sound_storage = "";

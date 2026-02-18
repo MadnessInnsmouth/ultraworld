@@ -157,6 +157,15 @@ jobs:
           }
           
           Write-Host "`nNVGT installation validation complete."
+          
+          # Check NVGT version for debugging
+          Write-Host "`nChecking NVGT version..."
+          try {
+            $versionOutput = & "$($nvgtc.FullName)" --version 2>&1
+            Write-Host "NVGT Version: $versionOutput"
+          } catch {
+            Write-Host "Could not determine NVGT version (--version flag may not be supported)"
+          }
 
       - name: Compile server
         shell: pwsh
