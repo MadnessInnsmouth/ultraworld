@@ -125,8 +125,11 @@ jobs:
           Write-Host "Found NVGT compiler at: $($nvgtc.FullName)"
           echo "NVGTC=$($nvgtc.FullName)" >> $env:GITHUB_ENV
           
-          # Validate NVGT installation by checking for required files
+          # Store NVGT installation directory for use in compilation steps
           $nvgtInstallDir = Split-Path -Parent "$($nvgtc.FullName)"
+          echo "NVGT_DIR=$nvgtInstallDir" >> $env:GITHUB_ENV
+          
+          # Validate NVGT installation by checking for required files
           Write-Host "`nValidating NVGT installation..."
           Write-Host "Installation directory: $nvgtInstallDir"
           
@@ -161,10 +164,7 @@ jobs:
         run: |
           Write-Host "Compiling Ultra World Server..."
           Write-Host "NVGT Compiler: $env:NVGTC"
-          
-          # Get the NVGT installation directory
-          $nvgtDir = Split-Path -Parent "$env:NVGTC"
-          Write-Host "NVGT Directory: $nvgtDir"
+          Write-Host "NVGT Directory: $env:NVGT_DIR"
           
           # Get the absolute path to the server source file
           $serverSource = (Resolve-Path "server/uwserver.nvgt").Path
@@ -172,10 +172,10 @@ jobs:
           
           # Change to NVGT directory and compile from there
           # This ensures NVGT can find its runtime files and built-in functions
-          Push-Location $nvgtDir
+          Push-Location "$env:NVGT_DIR"
           Write-Host "Working directory: $(Get-Location)"
           
-          & ".\nvgt.exe" -c --platform windows "$serverSource"
+          & "$env:NVGTC" -c --platform windows "$serverSource"
           $compileResult = $LASTEXITCODE
           Pop-Location
           
@@ -201,10 +201,7 @@ jobs:
         run: |
           Write-Host "Compiling Ultra World Client..."
           Write-Host "NVGT Compiler: $env:NVGTC"
-          
-          # Get the NVGT installation directory
-          $nvgtDir = Split-Path -Parent "$env:NVGTC"
-          Write-Host "NVGT Directory: $nvgtDir"
+          Write-Host "NVGT Directory: $env:NVGT_DIR"
           
           # Get the absolute path to the client source file
           $clientSource = (Resolve-Path "client/uw.nvgt").Path
@@ -212,10 +209,10 @@ jobs:
           
           # Change to NVGT directory and compile from there
           # This ensures NVGT can find its runtime files and built-in functions
-          Push-Location $nvgtDir
+          Push-Location "$env:NVGT_DIR"
           Write-Host "Working directory: $(Get-Location)"
           
-          & ".\nvgt.exe" -c --platform windows "$clientSource"
+          & "$env:NVGTC" -c --platform windows "$clientSource"
           $compileResult = $LASTEXITCODE
           Pop-Location
           
