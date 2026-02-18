@@ -66,25 +66,59 @@ jobs:
           # /VERYSILENT = no messages, /SUPPRESSMSGBOXES = no message boxes
           # /NORESTART = don't restart, /SP- = skip startup prompt
           # /DIR = installation directory
+          # /LOG = enable logging for debugging
           $installDir = Join-Path $PWD "nvgt"
+          $logFile = Join-Path $PWD "nvgt_install.log"
           Write-Host "Installing to: $installDir"
+          Write-Host "Log file: $logFile"
           
-          $process = Start-Process -FilePath "nvgt_setup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/SP-", "/DIR=`"$installDir`"" -Wait -PassThru
+          $process = Start-Process -FilePath "nvgt_setup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/SP-", "/DIR=`"$installDir`"", "/LOG=`"$logFile`"" -Wait -PassThru
           
           if ($process.ExitCode -ne 0) {
             Write-Error "NVGT installation failed with exit code: $($process.ExitCode)"
+            if (Test-Path $logFile) {
+              Write-Host "`nInstallation log (last 50 lines):"
+              Get-Content $logFile -Tail 50
+            }
             exit 1
           }
           
-          Write-Host "Installation completed. Searching for nvgtc.exe..."
+          # Wait a moment for filesystem operations to complete
+          # Inno Setup may need time to finalize file operations after the process exits
+          Write-Host "Installation completed. Waiting for filesystem to sync..."
+          Start-Sleep -Seconds 3
+          
+          Write-Host "Searching for nvgtc.exe..."
+          
+          # List contents for debugging (showing first 100 items should cover typical NVGT installation)
+          Write-Host "`nInstallation directory structure:"
+          if (Test-Path $installDir) {
+            Get-ChildItem -Path $installDir -Recurse -ErrorAction SilentlyContinue | Select-Object -First 100 FullName | Format-Table -AutoSize
+          } else {
+            Write-Host "ERROR: Installation directory does not exist!"
+          }
           
           # Search for nvgtc.exe in the installation directory
           $nvgtc = Get-ChildItem -Path $installDir -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
           
+          # If not found in custom directory, check common install locations
+          if (-not $nvgtc) {
+            Write-Host "`nSearching in Program Files..."
+            $programFiles = @($env:ProgramFiles, ${env:ProgramFiles(x86)})
+            foreach ($pf in $programFiles) {
+              if ($pf -and (Test-Path $pf)) {
+                $nvgtc = Get-ChildItem -Path $pf -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+                if ($nvgtc) { break }
+              }
+            }
+          }
+          
           if (-not $nvgtc) {
             Write-Error "Could not find nvgtc.exe after installation"
-            Write-Host "`nContents of installation directory (first 100 items):"
-            Get-ChildItem -Path $installDir -Recurse -ErrorAction SilentlyContinue | Select-Object -First 100 FullName | Format-Table
+            Write-Host "`nInstallation log (last 100 lines):"
+            if (Test-Path $logFile) {
+              Get-Content $logFile -Tail 100
+            }
             exit 1
           }
           
