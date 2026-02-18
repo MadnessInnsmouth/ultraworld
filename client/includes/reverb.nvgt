@@ -28,27 +28,31 @@ void revfxloop(vector w, vector wa) {
 		if (inrange(w, r.min, r.max) || inrange(wa, r.min, r.max)) {
 			if (!reverb_applied) {
 				string fxtype = "$" + r.reverb_id + ":freeverb:" + r.dry_mix + ":" + r.wet_mix + ":" + r.room_size + ":" + r.dampping + ":" + r.width;
-				for (uint j = 0; j < pools.length(); j++)
-					pools[j].mixer.set_fx(fxtype);
+				// NVGT API change: set_fx method not available on mixer in current version
+				// Audio reverb effects disabled until API is updated
+				// for (uint j = 0; j < pools.length(); j++)
+				// 	pools[j].mixer.set_fx(fxtype);
 				reverb_applied = true;
 				applied_reverb_id = r.reverb_id;
 			}
 		}
 	}
 	if (!reverb_applied) {
-		foreach (sound_pool@ j: pools) {
-			if (@j == null) continue;
-			j.mixer.set_fx("$");
-		}
+		// NVGT API change: set_fx method not available on mixer in current version
+		// foreach (sound_pool@ j: pools) {
+		// 	if (@j == null) continue;
+		// 	j.mixer.set_fx("$");
+		// }
 	} else {
-		for (uint i = 0; i < reverb_effects.length(); i++) {
-			if (reverb_effects[i].reverb_id != applied_reverb_id) {
-				foreach (sound_pool@ j: pools) {
-					if (@j == null) continue;
-					j.mixer.set_fx("$" + reverb_effects[i].reverb_id);
-				}
-			}
-		}
+		// NVGT API change: set_fx method not available on mixer in current version
+		// for (uint i = 0; i < reverb_effects.length(); i++) {
+		// 	if (reverb_effects[i].reverb_id != applied_reverb_id) {
+		// 		foreach (sound_pool@ j: pools) {
+		// 			if (@j == null) continue;
+		// 			j.mixer.set_fx("$" + reverb_effects[i].reverb_id);
+		// 		}
+		// 	}
+		// }
 	}
 }
 void spawn_reverb_effect(vector m1, vector m2, string reverb_id, float dry_mix, float wet_mix, float room_size, float dampping, float width) {
@@ -56,8 +60,9 @@ void spawn_reverb_effect(vector m1, vector m2, string reverb_id, float dry_mix, 
 	reverb_effects.insert_last(rf1);
 }
 void destroy_all_reverb_effects() {
-	for (uint j = 0; j < pools.length(); j++)
-		pools[j].mixer.set_fx("$");
+	// NVGT API change: set_fx method not available on mixer in current version
+	// for (uint j = 0; j < pools.length(); j++)
+	// 	pools[j].mixer.set_fx("$");
 	reverb_effects.resize(0);
 }
 void initialize_pools() {

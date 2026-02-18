@@ -4,26 +4,26 @@ library bass;
 //init bass
 int64 init_bass() {
 	bass.load("libraries/bass.dll");
-	dictionary s = bass.call("void BASS_Init(long, long, long, float, float);", -1, 44100, 0, 0, 0);
+	dictionary s = bass.call("void BASS_Init(int64, int64, int64, float, float);", -1, 44100, 0, 0, 0);
 	int64 handle;
 	s.get("0", handle);
 	return handle;
 }
 //load a URL
 int64 load_stream_url(string url) {
-	dictionary s = bass.call("long BASS_StreamCreateURL(char*,long,long,int,int);", url, 0, 0, 0, 0);
+	dictionary s = bass.call("int64 BASS_StreamCreateURL(char*,int64,int64,int,int);", url, 0, 0, 0, 0);
 	int64 h;
 	s.get(0, h);
 	return h;
 }
 //play
 void play_file(int64 handle) {
-	bass.call("void BASS_ChannelPlay(long,long);", handle, 0);
+	bass.call("void BASS_ChannelPlay(int64,int64);", handle, 0);
 }
 //stop
 void stop_file(int64 handle) {
-	bass.call("void BASS_ChannelStop(long);", handle);
+	bass.call("void BASS_ChannelStop(int64);", handle);
 }
 void set_volume(int64 volume) {
-	bass.call("void BASS_SetConfig(long,long);", 5, volume);
+	bass.call("void BASS_SetConfig(int64,int64);", 5, volume);
 }
