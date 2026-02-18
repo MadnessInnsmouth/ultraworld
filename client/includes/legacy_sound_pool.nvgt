@@ -137,17 +137,16 @@ class sound_pool_item {
 		float delta_upper = z + upper_range;
 		if (is_3d == false) {
 			if (listener_x >= delta_left and listener_x <= delta_right) {
-				// NVGT API change: set_position now takes 3 parameters (x, y, z) instead of 9
-				// The old signature included listener position, rotation, pan_step, and volume_step
-				// The new API handles pan and volume interpolation automatically
-				// Audio positioning may be less precise but should still function
-				handle.set_position(listener_x, 0, 0);
+				// NVGT API change: set_position method has been removed from sound class
+				// The sound positioning API is no longer available in this form
+				// TODO: Implement alternative 3D audio solution using NVGT's current API
+				// handle.set_position(listener_x, 0, 0);
 				return;
 			}
-			if (listener_x < delta_left)
-				handle.set_position(delta_left, 0, 0);
-			if (listener_x > delta_right)
-				handle.set_position(delta_right, 0, 0);
+			// Boundary clamping intentionally disabled until replacement API implemented
+			// Previously: sounds outside range were clamped to delta_left/delta_right boundaries
+			// Now: sounds outside range will have no special positioning (may need volume fade)
+			// TODO: Implement boundary handling when listener is outside range
 			return;
 		}
 		vector r_listener(listener_x, listener_y, listener_z);
@@ -174,8 +173,10 @@ class sound_pool_item {
 		while (rotation < 0) rotation += 2 * pi;
 		//if(theta!=0)
 		//speak("old_listener="+listener_x+", "+listener_y+". new_listener="+r_listener.x+", "+r_listener.y+". pivit="+pivit.x+", "+pivit.y);
-		// NVGT API change: set_position now takes 3 parameters (x, y, z) instead of 9
-		handle.set_position(true_x, y_is_elevation == false ? true_y : true_z, y_is_elevation == false ? true_z : true_y);
+		// NVGT API change: set_position method has been removed from sound class
+		// The sound positioning API is no longer available in this form
+		// TODO: Implement alternative 3D audio solution using NVGT's current API
+		// handle.set_position(true_x, y_is_elevation == false ? true_y : true_z, y_is_elevation == false ? true_z : true_y);
 		/*if(occlude)
 		{
 		int[] factors=occlusion_factors(r_listener.x, r_listener.y, listener_z, true_x, true_y, true_z);

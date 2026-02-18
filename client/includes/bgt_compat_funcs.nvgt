@@ -179,3 +179,4 @@ bool string_is_upper_case(string str) {
 const int KEY_LBRACKET = KEY_LEFTBRACKET;
 const int KEY_RBRACKET = KEY_RIGHTBRACKET;
 const int KEY_LMENU = KEY_LALT;  // Left Alt key
+const int KEY_RMENU = KEY_RALT;  // Right Alt key
