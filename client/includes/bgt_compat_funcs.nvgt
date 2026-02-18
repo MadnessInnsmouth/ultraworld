@@ -72,7 +72,7 @@ dictionary deserialize(string data) {
 	string[] lines = data.split("\n", true);
 	for (uint i = 0; i < lines.length(); i++) {
 		int eq_pos = lines[i].find("=");
-		if (eq_pos > 0) {
+		if (eq_pos >= 0) {
 			string key = lines[i].substr(0, eq_pos);
 			string value = lines[i].substr(eq_pos + 1);
 			result.set(key, value);
