@@ -2,28 +2,28 @@
 //Functions for playing an audio stream using Bass in BGT
 library bass;
 //init bass
-long init_bass() {
+int64 init_bass() {
 	bass.load("libraries/bass.dll");
 	dictionary s = bass.call("void BASS_Init(long, long, long, float, float);", -1, 44100, 0, 0, 0);
-	long handle;
+	int64 handle;
 	s.get("0", handle);
 	return handle;
 }
 //load a URL
-long load_stream_url(string url) {
+int64 load_stream_url(string url) {
 	dictionary s = bass.call("long BASS_StreamCreateURL(char*,long,long,int,int);", url, 0, 0, 0, 0);
-	long h;
+	int64 h;
 	s.get(0, h);
 	return h;
 }
 //play
-void play_file(long handle) {
+void play_file(int64 handle) {
 	bass.call("void BASS_ChannelPlay(long,long);", handle, 0);
 }
 //stop
-void stop_file(long handle) {
+void stop_file(int64 handle) {
 	bass.call("void BASS_ChannelStop(long);", handle);
 }
-void set_volume(long volume) {
+void set_volume(int64 volume) {
 	bass.call("void BASS_SetConfig(long,long);", 5, volume);
 }
