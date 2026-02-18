@@ -243,6 +243,23 @@ bool string_is_digits(string str) {
 	return true;
 }
 
+// Check if a string contains only alphabetic characters (A-Z, a-z)
+// Returns false for empty strings to match BGT behavior
+bool string_is_alphabetic(string str) {
+	if (str.length() == 0) return false;
+	
+	for (uint i = 0; i < str.length(); i++) {
+		string current_char = str[i];
+		// Check if character is between 'A' and 'Z' or 'a' and 'z'
+		bool is_upper = (current_char >= "A" && current_char <= "Z");
+		bool is_lower = (current_char >= "a" && current_char <= "z");
+		if (!is_upper && !is_lower) {
+			return false;
+		}
+	}
+	return true;
+}
+
 // Sound storage compatibility - track current sound pack
 // In BGT, this was used to manage which pack file sounds were loaded from
 string _current_sound_storage = "";
@@ -254,3 +271,95 @@ string get_sound_storage() {
 void set_sound_storage(string pack_path) {
 	_current_sound_storage = pack_path;
 }
+
+// Additional key constant compatibility for older NVGT versions
+// Map KEY_LCONTROL and KEY_RCONTROL to the current NVGT naming
+const int KEY_LCONTROL = KEY_LCTRL;
+const int KEY_RCONTROL = KEY_RCTRL;
+
+// Pack mode constants for older NVGT API compatibility
+// In older NVGT versions, these were named PACK_OPEN_MODE_*
+// In newer versions, they may be just PACK_MODE_* or use a different naming
+const int PACK_OPEN_MODE_READ = 0;    // Read-only mode
+const int PACK_OPEN_MODE_WRITE = 1;   // Write mode (create new or overwrite)
+const int PACK_OPEN_MODE_APPEND = 2;  // Append mode (add to existing)
+
+// Computer ID generation for hardware identification
+// This provides a unique identifier for the current machine
+// Parameters:
+//   salt: A string to salt the hash with for uniqueness
+//   use_hardware: Whether to include hardware information (typically true)
+// Returns: A unique string identifying this computer
+string generate_computer_id(string salt = "", bool use_hardware = true) {
+	// Generate a computer ID based on available system information
+	// This is a compatibility wrapper for older NVGT API
+	
+	// In older NVGT, generate_computer_id() used hardware information
+	// In newer NVGT, we build a fingerprint from available system data
+	string id_base = "";
+	
+	// Add environment variables as a fingerprint
+	// These are typically consistent for a given machine but may vary
+	id_base += read_environment_variable("COMPUTERNAME");
+	id_base += read_environment_variable("USERNAME");
+	id_base += read_environment_variable("PROCESSOR_IDENTIFIER");
+	id_base += read_environment_variable("OS");
+	
+	// Add salt if provided
+	if (salt.length() > 0) {
+		id_base += salt;
+	}
+	
+	// If we couldn't get any system info, fall back to a constant
+	// This means all machines will have the same ID, but prevents crashes
+	if (id_base.length() == 0 || id_base == salt) {
+		id_base = "default_computer_id" + salt;
+	}
+	
+	// Hash the combined information to create a unique ID
+	// Using SHA256 for consistency with other hashing in the codebase
+	return string_hash_sha256(id_base);
+}
+
+// Check if the game window is currently active (has focus)
+// Returns true if the window is focused, false otherwise
+bool is_game_window_active() {
+	// In newer NVGT, window focus is typically handled automatically
+	// or through different API calls
+	
+	// For compatibility, we'll assume the window is active
+	// This prevents issues with sound/rendering when the API is not available
+	// Note: This may not reflect actual window state in all cases
+	
+	// If NVGT has a window_focused() or similar function, use it instead
+	return true;  // Default to active to maintain functionality
+}
+
+// Show the game window with a title
+// This sets the window title and ensures the window is visible
+void show_game_window(string title = "") {
+	// In newer NVGT, show_window() is the primary function
+	// It both shows the window and sets its title
+	show_window(title);
+}
+
+// Sound decryption key management
+// This allows setting decryption keys for encrypted sound packs
+// Parameters:
+//   key: The decryption key to set
+//   real: If true, this is the real key; if false, it's a decoy
+// Note: The decoy key feature may not be available in all NVGT versions
+void set_sound_decryption_key(string key, bool real = true) {
+	// In newer NVGT, pack encryption/decryption may use different APIs
+	// This is a compatibility stub that does nothing if the API is unavailable
+	
+	// If packs have a set_decryption_key method, this would need to be
+	// applied to the specific pack instance rather than globally
+	// For now, this is a no-op to maintain compatibility
+}
+
+// Long integer type compatibility
+// Older NVGT versions supported 'long' as a type
+// Newer versions use int64 instead
+// Note: This typedef allows old code using 'long' to compile
+typedef int64 long;

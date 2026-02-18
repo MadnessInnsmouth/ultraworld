@@ -85,7 +85,18 @@ double square_root(double value) {
 }
 
 bool string_is_digits(string str) {
-	return str.is_digits();
+	// Compatibility wrapper for older NVGT versions
+	// Use manual check instead of str.is_digits() which may not be available
+	if (str.length() == 0) return false;
+	
+	for (uint i = 0; i < str.length(); i++) {
+		string current_char = str[i];
+		// Check if character is between '0' and '9'
+		if (current_char < "0" || current_char > "9") {
+			return false;
+		}
+	}
+	return true;
 }
 
 // Math functions
@@ -129,3 +140,8 @@ dictionary deserialize(string data) {
 void hide_game_window() {
 	show_window("");
 }
+
+// Long integer type compatibility
+// Older NVGT versions supported 'long' as a type
+// Newer versions use int64 instead
+typedef int64 long;
