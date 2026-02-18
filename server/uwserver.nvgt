@@ -37,7 +37,7 @@ washbasin@[] active_washbasins;
 shower@[] active_showers;
 int filterstuff = 1;
 double servermoney;
-instance uwserverinstance("uwserver.exe");
+// instance uwserverinstance("uwserver.exe"); // Commented out: instance class not available in current NVGT version and variable is unused
 int numerochuva;
 int volumechuva;
 int volumechuva1 = 0; int volumechuva2 = 0;
