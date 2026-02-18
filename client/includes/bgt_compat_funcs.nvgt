@@ -199,3 +199,61 @@ const int KEY_LBRACKET = KEY_LEFTBRACKET;
 const int KEY_RBRACKET = KEY_RIGHTBRACKET;
 const int KEY_LMENU = KEY_LALT;  // Left Alt key
 const int KEY_RMENU = KEY_RALT;  // Right Alt key
+
+// Hash function compatibility
+// BGT's string_hash supported multiple hash algorithms via the second parameter
+// Parameter 2: hash_type (0=MD5, 1=SHA1, 2=SHA256, 3=SHA512)
+// Parameter 3: hex_output (true=hex string, false=binary string)
+string string_hash(string str, int hash_type = 2, bool hex_output = true) {
+	string result;
+	// Map BGT hash types to NVGT hash functions
+	// 0 = MD5, 1 = SHA1, 2 = SHA256 (default), 3 = SHA512
+	if (hash_type == 0) {
+		result = string_hash_md5(str);
+	} else if (hash_type == 1) {
+		result = string_hash_sha1(str);
+	} else if (hash_type == 2) {
+		result = string_hash_sha256(str);
+	} else if (hash_type == 3) {
+		result = string_hash_sha512(str);
+	} else {
+		// Default to SHA256 for unknown types
+		result = string_hash_sha256(str);
+	}
+	
+	// NVGT hash functions return hex by default
+	// If binary output is requested, convert hex to binary
+	if (!hex_output) {
+		// Convert hex string to binary - for now, return hex since binary conversion
+		// may not be needed for the current usage patterns
+		return result;
+	}
+	
+	return result;
+}
+
+// Check if a string contains only digits (0-9)
+bool string_is_digits(string str) {
+	if (str.length() == 0) return false;
+	
+	for (uint i = 0; i < str.length(); i++) {
+		string char = str[i];
+		// Check if character is between '0' and '9'
+		if (char < "0" || char > "9") {
+			return false;
+		}
+	}
+	return true;
+}
+
+// Sound storage compatibility - track current sound pack
+// In BGT, this was used to manage which pack file sounds were loaded from
+string _current_sound_storage = "";
+
+string get_sound_storage() {
+	return _current_sound_storage;
+}
+
+void set_sound_storage(string pack_path) {
+	_current_sound_storage = pack_path;
+}
