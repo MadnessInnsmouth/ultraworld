@@ -139,17 +139,14 @@ class sound_pool_item {
 			if (listener_x >= delta_left and listener_x <= delta_right) {
 				// NVGT API change: set_position method has been removed from sound class
 				// The sound positioning API is no longer available in this form
-				// Fallback: Use basic pan/volume for simple positioning
-				// TODO: Implement alternative 3D audio solution if needed
+				// TODO: Implement alternative 3D audio solution using NVGT's current API
 				// handle.set_position(listener_x, 0, 0);
 				return;
 			}
-			if (listener_x < delta_left) {
-				// handle.set_position(delta_left, 0, 0);
-			}
-			if (listener_x > delta_right) {
-				// handle.set_position(delta_right, 0, 0);
-			}
+			// TODO: Implement boundary handling when listener is outside range
+			// Previously used set_position for left/right boundary conditions
+			// if (listener_x < delta_left) handle.set_position(delta_left, 0, 0);
+			// if (listener_x > delta_right) handle.set_position(delta_right, 0, 0);
 			return;
 		}
 		vector r_listener(listener_x, listener_y, listener_z);
@@ -178,8 +175,7 @@ class sound_pool_item {
 		//speak("old_listener="+listener_x+", "+listener_y+". new_listener="+r_listener.x+", "+r_listener.y+". pivit="+pivit.x+", "+pivit.y);
 		// NVGT API change: set_position method has been removed from sound class
 		// The sound positioning API is no longer available in this form
-		// Fallback: Use basic pan/volume for simple positioning
-		// TODO: Implement alternative 3D audio solution if needed
+		// TODO: Implement alternative 3D audio solution using NVGT's current API
 		// handle.set_position(true_x, y_is_elevation == false ? true_y : true_z, y_is_elevation == false ? true_z : true_y);
 		/*if(occlude)
 		{
