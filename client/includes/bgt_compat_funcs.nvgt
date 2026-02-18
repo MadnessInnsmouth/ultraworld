@@ -173,6 +173,25 @@ bool string_is_upper_case(string str) {
 	return str.is_upper();
 }
 
+// Screen reader speak functions - compatibility wrappers for old BGT API
+// In NVGT, the speak() function works automatically with any screen reader
+// These wrappers ignore the reader_type parameter and use NVGT's universal speak()
+bool screen_reader_speak_interrupt(int reader_type, string text) {
+	// NVGT's speak() function works with all screen readers automatically
+	// The interrupt parameter is always true for this function (speak_interrupt behavior)
+	return speak(text, true);
+}
+
+bool screen_reader_speak(int reader_type, string text, bool interrupt = false) {
+	// NVGT's speak() function works with all screen readers automatically
+	return speak(text, interrupt);
+}
+
+void screen_reader_stop_speech(int reader_type) {
+	// NVGT's stop_speech() function works with all screen readers automatically
+	stop_speech();
+}
+
 // Key constant compatibility - map old BGT names to new NVGT names
 // In NVGT, these constants already exist with slightly different names
 // We create aliases here for backward compatibility
