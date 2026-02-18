@@ -1333,12 +1333,12 @@ void audiomusicmenu() {
 			if (audiomusic.volume < maxvolume)
 				audiomusic.volume = audiomusic.volume + 1;
 		}
-		if (key_down(KEY_NEXT) and pitchtimer.elapsed >= pitchtime) {
+		if (key_down(KEY_PAGEDOWN) and pitchtimer.elapsed >= pitchtime) {
 			pitchtimer.restart();
 			if (audiomusic.pitch > minpitch)
 				audiomusic.pitch = audiomusic.pitch - 1;
 		}
-		if (key_down(KEY_PRIOR) and pitchtimer.elapsed >= pitchtime) {
+		if (key_down(KEY_PAGEUP) and pitchtimer.elapsed >= pitchtime) {
 			pitchtimer.restart();
 			if (audiomusic.pitch < maxpitch)
 				audiomusic.pitch = audiomusic.pitch + 1;

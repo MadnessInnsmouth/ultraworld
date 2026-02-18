@@ -100,7 +100,7 @@ class dynamic_menu {
 				return -1;
 			}
 			if (enable_pages_keys_moveing and (key_down(KEY_LSHIFT) or key_down(KEY_RSHIFT))) {
-				if (key_pressed(KEY_PRIOR)) {
+				if (key_pressed(KEY_PAGEUP)) {
 					counter -= pages_moveing_value;
 					if (counter < 0)
 						counter = 0;
@@ -110,7 +110,7 @@ class dynamic_menu {
 						sm.play_stationary(click_sound, false);
 					speak(menu_item[counter].option);
 				}
-				if (key_pressed(KEY_NEXT)) {
+				if (key_pressed(KEY_PAGEDOWN)) {
 					counter += pages_moveing_value;
 					if (counter > menu_item.length() - 1)
 						counter = menu_item.length() - 1;
@@ -146,12 +146,12 @@ class dynamic_menu {
 				return 0;
 			}
 			if (music_sound.active and key_up(KEY_LSHIFT) and key_up(KEY_RSHIFT)) {
-				if (key_down(KEY_NEXT) and volume_timer.elapsed > volume_time) {
+				if (key_down(KEY_PAGEDOWN) and volume_timer.elapsed > volume_time) {
 					volume_timer.restart();
 					music_sound.volume = music_sound.volume - 2;
 					volume.write_number(volume_parameter, music_sound.volume);
 				}
-				if (key_down(KEY_PRIOR) and volume_timer.elapsed > volume_time) {
+				if (key_down(KEY_PAGEUP) and volume_timer.elapsed > volume_time) {
 					volume_timer.restart();
 					music_sound.volume = music_sound.volume + 2;
 					volume.write_number(volume_parameter, music_sound.volume);
