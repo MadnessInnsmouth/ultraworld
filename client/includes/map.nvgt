@@ -8,7 +8,7 @@ string somchuva;
 string somwind;
 string somnight;
 bool comurl = false;
-long streamurl;
+int64 streamurl;
 map@[]maps(0);
 class map {
 	string name;

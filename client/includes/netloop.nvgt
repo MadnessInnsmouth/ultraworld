@@ -246,7 +246,7 @@ void netloop() {
 					int y = string_to_number(parsed[2]);
 					int z = string_to_number(parsed[3]);
 					string map = parsed[4];
-					pack@ pf = @sndpack;
+					pack_file@ pf = @sndpack;
 					if (pf.file_exists((get_tile_at(x, y, z) + "trip.ogg"))) {
 						if (get_tile_at(me.x, me.y, me.z) != "chair") {
 							rvp.play_stationary(get_tile_at(x, y, z) + "trip.ogg", false);

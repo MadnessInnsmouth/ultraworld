@@ -178,7 +178,7 @@ int djoystick;
 int winsound;
 int mutetts;
 int sitting = 0;
-instance uwinstance();
+// instance uwinstance(); // Commented out: instance class not available in current NVGT version
 //string packname = "audio.dat";
 const string decryption_key = "meowza";
 int readerinterrupt = 0;
@@ -317,11 +317,11 @@ string banid = generate_computer_id("S���uafama�����decolecionar
 network n;
 network_event e;
 string sndloc = "audio.dat";
-pack@ sndpack = null;
+pack_file@ sndpack = null;
 
 void main() {
 	if (!directory_exists("logs")) directory_create("logs");
-	@sndpack = pack();
+	@sndpack = pack_file();
 	sndpack.open(sndloc, PACK_OPEN_MODE_READ);
 	// Note: sound_default_pack is now a built-in property in NVGT.
 	// The engine automatically manages it - we just need to open the pack above.
@@ -404,7 +404,8 @@ void main() {
 	nightlivre.load("night" + random(2, 4) + ".ogg");
 	nightlivre.volume = -100;
 	garbage_collect();
-	if (uwinstance.is_already_running and overrun == false and SCRIPT_COMPILED) {
+	// instance check removed as instance class is no longer available
+	if (false and overrun == false and SCRIPT_COMPILED) {
 		alert("error", "Can't have 2 instances of the game up");
 		exit();
 	}

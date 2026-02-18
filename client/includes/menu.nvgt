@@ -1485,7 +1485,7 @@ void musicmenu() {
 	setupmenu(false, true);
 	string[] ambs = string_split(musictypes, "\r\n", false);
 	#if plugin_legacy_sound
-		pack@ musicpack = cast<pack>(sound_default_pack);
+		pack_file@ musicpack = cast<pack_file>(sound_default_pack);
 	#endif
 	#if_not plugin_legacy_sound
 		pack_file@ musicpack = cast<pack_file>(sound_default_pack);

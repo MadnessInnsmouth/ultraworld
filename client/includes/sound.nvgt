@@ -1,15 +1,15 @@
-tts_voice s; //If you want to use default tts for some reason...
+tts_voice default_tts; //If you want to use default tts for some reason...
 sound dlgaudio;
 sound lmusic; //The main background music track useable in levels.
 int lmusicv = -10; //The volume of the music, held independently so that we can have music volume save.
-string track; //The track being played.
+string current_track; //The track being played.
 void music_new(string track, int vol, string tname = "") {
 	if (lmusic.playing)
 		music_stop();
 	lmusic.load("" + track + "");
 	lmusicv = vol;
 	lmusic.volume = lmusicv;
-	track = tname;
+	current_track = tname;
 	music_loop();
 }
 void music_loop() {
