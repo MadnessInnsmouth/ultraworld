@@ -87,18 +87,10 @@ class sound_pool_item {
 		extra_data = "";
 	}
 	bool load() {
-		if (!this.memory) {
-			// In newer NVGT, pack-based loading is not supported in the same way
-			// Try to load from filesystem instead
-			pack@ p = @packfile != null ? @packfile : @sound_default_pack;
-			if (@p != null) {
-				// Pack loading not functional in current NVGT, fall back to direct file load
-				return handle.load(filename);
-			}
-			return handle.load(filename);
-		}
-		// Memory loading has changed - for now, just try direct file load
-		// The memory loading API needs to be updated to use load_from_memory
+		// NVGT API change: Pack-based loading API has changed
+		// The old signature sound.load(filename, pack@) is no longer supported
+		// For now, load directly from filesystem
+		// TODO: Update to use new pack loading API when available
 		return handle.load(filename);
 	}
 	/*
@@ -146,6 +138,9 @@ class sound_pool_item {
 		if (is_3d == false) {
 			if (listener_x >= delta_left and listener_x <= delta_right) {
 				// NVGT API change: set_position now takes 3 parameters (x, y, z) instead of 9
+				// The old signature included listener position, rotation, pan_step, and volume_step
+				// The new API handles pan and volume interpolation automatically
+				// Audio positioning may be less precise but should still function
 				handle.set_position(listener_x, 0, 0);
 				return;
 			}
@@ -636,8 +631,10 @@ class sound_pool {
 		for (uint slot = 0; slot <= highest_slot; slot++) {
 			if (items[slot].owner.substr(0, owner.length()) != owner or items[slot].priority != priority)
 				continue;
-			// NVGT API change: set_fx method signature changed or removed
-			// Using set_volume instead of set_fx for amplitude control
+			// NVGT API change: set_fx method signature changed/removed
+			// Using set_volume as a fallback for amplitude control
+			// Note: This may not behave exactly the same as the original $amp:volume: effect
+			// The amp parameter is passed directly to set_volume, which expects 0.0-1.0 range
 			items[slot].handle.set_volume(amp);
 		}
 		return true;

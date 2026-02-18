@@ -151,10 +151,12 @@ const int NVDA = 4;
 
 // Screen reader detection function
 bool screen_reader_is_running(int reader_type = 0) {
-	// NVGT's screen_reader_detect() returns different values than BGT
-	// We'll provide a basic compatibility shim
-	// In NVGT, screen reader detection is built-in and automatic
-	// Return true to allow the code to function
+	// NVGT API change: BGT's screen_reader_is_running() function has been replaced
+	// NVGT has built-in screen reader detection that works automatically
+	// This stub returns true to allow code that checks for screen readers to function
+	// Note: In NVGT, screen reader output is handled automatically by the engine
+	// Individual screen reader detection (JAWS, NVDA, etc.) may not be necessary
+	// TODO: Consider using NVGT's screen_reader_detect() if specific reader detection is needed
 	return true;
 }
 
