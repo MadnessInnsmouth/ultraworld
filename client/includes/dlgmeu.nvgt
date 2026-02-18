@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"﻿sound daudio;
+﻿sound daudio;
 void dlgmeu(string message, string dlgsound, bool dlgfade = false, int fadespeed = 30) {
 	wait(100);
 	speak(message);

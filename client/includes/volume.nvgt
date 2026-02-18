@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"void vvolume_menu()
+void vvolume_menu()
 {
 	double original_volume = stbspeech.volume;
 	stbspeech.speak_interrupt("Adjust volume.");

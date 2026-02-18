@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"class phone
+class phone
 {
 	string input(string text) {
 		int cursor;

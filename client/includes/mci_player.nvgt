@@ -1,4 +1,3 @@
-#include "bgt_compat.nvgt"//Multimedia file player for BGT using MCI (Media Control Interface)
 //Based on the ultrarec class
 //By Gabriel Schuck on 26 may 2017
 library dll;

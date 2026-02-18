@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"class sub_menu_system
+class sub_menu_system
 {
 	sub_menu@[]subs;
 	int subcounter = 0;

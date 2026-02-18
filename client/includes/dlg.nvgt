@@ -1,4 +1,3 @@
-#include "bgt_compat.nvgt"
 void dlg(string message, bool in_game=false,string dlgalert="",string dlgdismiss="")
 {
 	if (dlgalert != "") p.play_stationary(dlgalert, false);

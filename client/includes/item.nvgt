@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"track []tracks;
+track []tracks;
 class track {
 	int x;
 	int y;

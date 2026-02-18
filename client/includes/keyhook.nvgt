@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"class kh
+class kh
 {
 	bool already_installed;
 	void install() {

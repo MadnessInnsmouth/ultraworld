@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"travelpoint@[] travelpoints(0);
+travelpoint@[] travelpoints(0);
 class travelpoint {
 	string ds, ds2, ds3;
 	int travelpointsound;

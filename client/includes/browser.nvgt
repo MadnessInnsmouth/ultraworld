@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"int counter;
+int counter;
 string browserfilename;
 string[] browserfiles, browserfolders, browseritems, ds;
 string browserdir;

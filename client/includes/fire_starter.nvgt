@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"fire_starter@[]fire_starters(0);
+fire_starter@[]fire_starters(0);
 class fire_starter {
 	int x, y, z;
 	int id;

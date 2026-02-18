@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"sign@[] signs;
+sign@[] signs;
 class sign {
 	int sgnsound;
 	int minx, maxx, miny, maxy, minz, maxz;

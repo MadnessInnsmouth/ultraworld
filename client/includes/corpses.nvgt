@@ -1,4 +1,4 @@
-#include "bgt_compat.nvgt"#include "bgt_compat.nvgt"corpse@[]corpses(0);
+corpse@[]corpses(0);
 class corpse {
 	string oldinv;
 	string id;
