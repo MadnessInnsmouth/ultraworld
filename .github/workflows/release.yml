@@ -127,10 +127,11 @@ jobs:
 
       - name: Compile server
         shell: pwsh
+        timeout-minutes: 5
         run: |
           Write-Host "Compiling Ultra World Server..."
           Push-Location server
-          & "$env:NVGTC" uwserver.nvgt -q
+          & "$env:NVGTC" uwserver.nvgt -o uwserver.exe
           if ($LASTEXITCODE -ne 0) {
             Write-Error "Server compilation failed"
             exit 1
@@ -145,10 +146,11 @@ jobs:
 
       - name: Compile client
         shell: pwsh
+        timeout-minutes: 5
         run: |
           Write-Host "Compiling Ultra World Client..."
           Push-Location client
-          & "$env:NVGTC" includes.nvgt -o uw.exe -q
+          & "$env:NVGTC" includes.nvgt -o uw.exe
           if ($LASTEXITCODE -ne 0) {
             Write-Error "Client compilation failed"
             exit 1
