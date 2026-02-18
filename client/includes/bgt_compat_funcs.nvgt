@@ -142,3 +142,40 @@ class settings {
 		// Dummy implementation - does nothing
 	}
 }
+
+// Screen reader constants for BGT compatibility
+const int JAWS = 1;
+const int WINDOW_EYES = 2;
+const int SYSTEM_ACCESS = 3;
+const int NVDA = 4;
+
+// Screen reader detection function
+// WARNING: This function always returns true and ignores the reader_type parameter
+// Calling code should not make decisions based on screen reader presence/absence
+bool screen_reader_is_running(int reader_type = 0) {
+	// NVGT API change: BGT's screen_reader_is_running() function has been replaced
+	// NVGT has built-in screen reader detection that works automatically
+	// 
+	// This stub returns true to allow code that checks for screen readers to function
+	// Note: The reader_type parameter is ignored - NVGT handles screen reader output
+	// automatically regardless of which screen reader is running.
+	// 
+	// In BGT, reader_type corresponded to: 1=JAWS, 2=Window-Eyes, 3=System Access, 4=NVDA
+	// NVGT's screen reader support is more universal and doesn't require per-reader logic
+	// 
+	// TODO: If specific reader detection is needed, consider using NVGT's screen_reader_detect()
+	// and mapping its return values to the expected reader types
+	return true;
+}
+
+// String case checking function
+bool string_is_upper_case(string str) {
+	return str.is_upper();
+}
+
+// Key constant compatibility - map old BGT names to new NVGT names
+// In NVGT, these constants already exist with slightly different names
+// We create aliases here for backward compatibility
+const int KEY_LBRACKET = KEY_LEFTBRACKET;
+const int KEY_RBRACKET = KEY_RIGHTBRACKET;
+const int KEY_LMENU = KEY_LALT;  // Left Alt key
