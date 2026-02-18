@@ -150,6 +150,8 @@ const int SYSTEM_ACCESS = 3;
 const int NVDA = 4;
 
 // Screen reader detection function
+// WARNING: This function always returns true and ignores the reader_type parameter
+// Calling code should not make decisions based on screen reader presence/absence
 bool screen_reader_is_running(int reader_type = 0) {
 	// NVGT API change: BGT's screen_reader_is_running() function has been replaced
 	// NVGT has built-in screen reader detection that works automatically

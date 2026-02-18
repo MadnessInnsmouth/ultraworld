@@ -456,8 +456,10 @@ class sound_pool {
 	bool sound_push_memory(int slot, string mem, bool stream_end = false, int pcm_rate = 0, int pcm_chans = 0) {
 		if (verify_slot(slot) == false or @items[slot].handle == null or items[slot].filename != "")
 			return false;
-		// NVGT API change: push_memory method has been removed or changed
-		// This is a stub for compatibility - memory streaming not currently supported
+		// NVGT API change: push_memory method has been removed from the sound class
+		// Memory-based sound streaming is no longer supported in this way
+		// This is a stub for compatibility - returns false to indicate failure
+		// TODO: If memory streaming is needed, explore NVGT's new streaming API
 		// bool ret = items[slot].handle.push_memory(mem, stream_end, pcm_rate, pcm_chans);
 		// if (ret)
 		// 	items[slot].last_memory_push.restart();
@@ -635,7 +637,9 @@ class sound_pool {
 			// Using set_volume as a fallback for amplitude control
 			// Note: This may not behave exactly the same as the original $amp:volume: effect
 			// Clamp amp to valid range [0.0, 1.0] for set_volume
-			float clamped_amp = amp < 0.0 ? 0.0 : (amp > 1.0 ? 1.0 : amp);
+			float clamped_amp = amp;
+			if (clamped_amp < 0.0) clamped_amp = 0.0;
+			if (clamped_amp > 1.0) clamped_amp = 1.0;
 			items[slot].handle.set_volume(clamped_amp);
 		}
 		return true;
