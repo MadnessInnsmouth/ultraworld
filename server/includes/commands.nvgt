@@ -1529,7 +1529,7 @@ void command(player@p, string command) {
 			garbage_collect();
 		}
 	} else if (parsed[0] == "/stopprofile" and p.dev == true) {
-		generate_profile("profile.log");
+		file_put("profile.log", generate_profile());
 		p.packet(file_get_contents("profile.log"));
 	} else if (parsed[0] == "/profile" and p.is_dev()) {
 		bool reset = false;
