@@ -131,7 +131,7 @@ jobs:
         run: |
           Write-Host "Compiling Ultra World Server..."
           Push-Location server
-          & "$env:NVGTC" -c -platform windows uwserver.nvgt
+          & "$env:NVGTC" -c --platform windows uwserver.nvgt
           if ($LASTEXITCODE -ne 0) {
             Write-Error "Server compilation failed"
             exit 1
@@ -150,7 +150,7 @@ jobs:
         run: |
           Write-Host "Compiling Ultra World Client..."
           Push-Location client
-          & "$env:NVGTC" -c -platform windows uw.nvgt
+          & "$env:NVGTC" -c --platform windows uw.nvgt
           if ($LASTEXITCODE -ne 0) {
             Write-Error "Client compilation failed"
             exit 1
