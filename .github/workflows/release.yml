@@ -137,7 +137,11 @@ jobs:
             exit 1
           }
           Pop-Location
-          if (Test-Path "server/uwserver.exe") {
+          # NVGT compiler outputs without .exe extension, rename it
+          if (Test-Path "server/uwserver") {
+            Rename-Item -Path "server/uwserver" -NewName "uwserver.exe"
+            Write-Host "Server compiled successfully: uwserver.exe"
+          } elseif (Test-Path "server/uwserver.exe") {
             Write-Host "Server compiled successfully: uwserver.exe"
           } else {
             Write-Error "Server executable not found after compilation"
@@ -156,7 +160,11 @@ jobs:
             exit 1
           }
           Pop-Location
-          if (Test-Path "client/uw.exe") {
+          # NVGT compiler outputs without .exe extension, rename it
+          if (Test-Path "client/uw") {
+            Rename-Item -Path "client/uw" -NewName "uw.exe"
+            Write-Host "Client compiled successfully: uw.exe"
+          } elseif (Test-Path "client/uw.exe") {
             Write-Host "Client compiled successfully: uw.exe"
           } else {
             Write-Error "Client executable not found after compilation"
