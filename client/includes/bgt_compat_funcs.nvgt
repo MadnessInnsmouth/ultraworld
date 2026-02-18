@@ -121,3 +121,24 @@ dictionary deserialize(string data) {
 void hide_game_window() {
 	show_window("");
 }
+
+// Dummy settings class for BGT compatibility
+// In BGT, this was used for Windows registry access
+// NVGT does not provide registry access, so this is a no-op implementation
+class settings {
+	settings() {}
+	
+	bool setup(string company, string section, bool create = true) {
+		// Dummy implementation - always returns false since registry access is not available
+		return false;
+	}
+	
+	int read_number(string parameter, int default_value = 0) {
+		// Dummy implementation - always returns default value
+		return default_value;
+	}
+	
+	void write_number(string parameter, int value) {
+		// Dummy implementation - does nothing
+	}
+}
