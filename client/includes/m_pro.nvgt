@@ -75,8 +75,8 @@ class dynamic_menu_pro {
 	int voltime = 100;
 	timer voltimer;
 	sound music;
-	int volkeyup = KEY_PRIOR;
-	int volkeydown = KEY_NEXT;
+	int volkeyup = KEY_PAGEUP;
+	int volkeydown = KEY_PAGEDOWN;
 	int volkeycheck = KEY_V;
 	string open_sound;
 	string click_sound;
@@ -870,8 +870,8 @@ class dynamic_menu_pro {
 			click_at_edge = false;
 			repeat_items_at_edges = false;
 			music_added = false;
-			volkeyup = KEY_PRIOR;
-			volkeydown = KEY_NEXT;
+			volkeyup = KEY_PAGEUP;
+			volkeydown = KEY_PAGEDOWN;
 			enable_space = false;
 			enable_enter = true;
 			enable_joystick = true;

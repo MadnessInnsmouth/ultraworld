@@ -1412,7 +1412,7 @@ void netloop() {
 				} else if (parsed[0] == "speak")
 					speak(string_trim_left(get_event_message(), 6));
 				else if (parsed[0] == "clip")
-					clipboard_copy_text(string_trim_left(get_event_message(), 5));
+					clipboard_set_text(string_trim_left(get_event_message(), 5));
 				else if (parsed[0] == "addbchat") {
 					string msg = get_event_message();
 					msg = string_replace(msg, parsed[0] + " ", "", true);

@@ -582,9 +582,9 @@ speak("The builder selection points have been cleared");
 				playcamera();
 			if (d2dsupport == 0) {
 				if (repeatingcamera == 0) {
-					if (key_pressed(KEY_NEXT))
+					if (key_pressed(KEY_PAGEDOWN))
 						cameramove(Down);
-					if (key_pressed(KEY_PRIOR))
+					if (key_pressed(KEY_PAGEUP))
 						cameramove(Up);
 					if (key_pressed(KEY_LEFT) && camera.x > min.x or mouse == 1 and mousex<0 and mousemenutimer.elapsed >= 100) {
 						if (mouse == 1) mousemenutimer.restart();
@@ -603,9 +603,9 @@ speak("The builder selection points have been cleared");
 						cameramove(Forward);
 					}
 				} else if (repeatingcamera == 1) {
-					if (key_pressed(KEY_PRIOR) == false and kcpgdn.pressing() and camera.z >= min.z)
+					if (key_pressed(KEY_PAGEUP) == false and kcpgdn.pressing() and camera.z >= min.z)
 						cameramove(Down);
-					if (key_pressed(KEY_NEXT) == false and kcpgup.pressing() and camera.z <= max.z)
+					if (key_pressed(KEY_PAGEDOWN) == false and kcpgup.pressing() and camera.z <= max.z)
 						cameramove(Up);
 					if (key_pressed(KEY_LEFT) == false and kcleft.pressing() && camera.x > min.x or mouse == 1 and mousex<0 and mousemenutimer.elapsed >= 100) {
 						if (mouse == 1) mousemenutimer.restart();
@@ -1259,12 +1259,12 @@ chat("public chat");
 			change_music_volume(mmusic_volume - 1);
 	}
 	if (alt_is_down() and key_up(KEY_LSHIFT) and key_up(KEY_RSHIFT)) {
-		if (key_pressed(KEY_NEXT) == false and kpgup.pressing() and volumestream < 0) {
+		if (key_pressed(KEY_PAGEDOWN) == false and kpgup.pressing() and volumestream < 0) {
 			volumestream += 1;
 			volumestream = clamp(volumestream, -100, 0);
 			stream.set_volume(volumestream);
 		}
-		if (key_pressed(KEY_PRIOR) == false and kpgdn.pressing() and volumestream > -100) {
+		if (key_pressed(KEY_PAGEUP) == false and kpgdn.pressing() and volumestream > -100) {
 			volumestream -= 1;
 			volumestream = clamp(volumestream, -100, 0);
 			stream.set_volume(volumestream);
@@ -1290,11 +1290,11 @@ chat("public chat");
 						if (djoystick == 1) joymenutimer.restart();
 						spy(Backward, seerange);
 					}
-					if (key_pressed(KEY_NEXT) and key_up(KEY_LMENU) and key_up(KEY_RMENU)) {
+					if (key_pressed(KEY_PAGEDOWN) and key_up(KEY_LMENU) and key_up(KEY_RMENU)) {
 						if (djoystick == 1) joymenutimer.restart();
 						spy(Down, seerange);
 					}
-					if (key_pressed(KEY_PRIOR) and key_up(KEY_LMENU) and key_up(KEY_RMENU)) {
+					if (key_pressed(KEY_PAGEUP) and key_up(KEY_LMENU) and key_up(KEY_RMENU)) {
 						if (djoystick == 1) joymenutimer.restart();
 						spy(Up, seerange);
 					}
@@ -1409,7 +1409,7 @@ chat("public chat");
 	if (can_move == true and !shift_is_down() and key_up(KEY_G) and sleepmode != 0) {
 		if (d2dsupport == 0) {
 			if (xx == 0) {
-				if (key_pressed(KEY_PRIOR)) {
+				if (key_pressed(KEY_PAGEUP)) {
 					if (sitting == 1) {
 						rvp.play_stationary("bodymove" + random(1, 5) + ".ogg", false);
 						send_reliable(peer_id, "draw bodymove" + random(1, 5) + ".ogg", 7);
@@ -1418,7 +1418,7 @@ chat("public chat");
 						movecheck();
 					}
 				}
-				if (key_pressed(KEY_NEXT)) {
+				if (key_pressed(KEY_PAGEDOWN)) {
 					if (sitting == 1) {
 						rvp.play_stationary("bodymove" + random(1, 5) + ".ogg", false);
 						send_reliable(peer_id, "draw bodymove" + random(1, 5) + ".ogg", 7);
@@ -1464,7 +1464,7 @@ chat("public chat");
 					}
 				}
 			} else if (xx == 1) {
-				if (key_pressed(KEY_PRIOR) == false and kmpgdn.pressing()) {
+				if (key_pressed(KEY_PAGEUP) == false and kmpgdn.pressing()) {
 					if (sitting == 1) {
 						rvp.play_stationary("bodymove" + random(1, 5) + ".ogg", false);
 						send_reliable(peer_id, "draw bodymove" + random(1, 5) + ".ogg", 7);
@@ -1473,7 +1473,7 @@ chat("public chat");
 						movecheck();
 					}
 				}
-				if (key_pressed(KEY_NEXT) == false and kmpgup.pressing()) {
+				if (key_pressed(KEY_PAGEDOWN) == false and kmpgup.pressing()) {
 					if (sitting == 1) {
 						rvp.play_stationary("bodymove" + random(1, 5) + ".ogg", false);
 						send_reliable(peer_id, "draw bodymove" + random(1, 5) + ".ogg", 7);

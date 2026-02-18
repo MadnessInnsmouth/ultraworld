@@ -48,7 +48,7 @@ void main() {
 	alert("Results", "There are " + quotes + " quotation marks.\nThere are " + braces + " unclosed braces, " + parentheses + " unclosed parentheses, and " + brackets + " unclosed brackets. ");
 	int copy = question("copy", "would you like to copy these results to your clipboard?");
 	if (copy == 1)
-		clipboard_copy_text("There are " + quotes + " quotation marks.\nThere are " + braces + " unclosed braces, " + parentheses + " unclosed parentheses, and " + brackets + " unclosed brackets. ");
+		clipboard_set_text("There are " + quotes + " quotation marks.\nThere are " + braces + " unclosed braces, " + parentheses + " unclosed parentheses, and " + brackets + " unclosed brackets. ");
 	if (copy == 2)
 		exit();
 }

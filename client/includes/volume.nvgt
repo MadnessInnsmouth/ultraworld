@@ -36,9 +36,9 @@ void vvolume_menu()
 				if (stbspeech.volume <= -100) break;
 			}
 		}
-		if (key_pressed(KEY_PRIOR))
+		if (key_pressed(KEY_PAGEUP))
 			adjust_volume(100);
-		if (key_pressed(KEY_NEXT))
+		if (key_pressed(KEY_PAGEDOWN))
 			adjust_volume(-100);
 		wait(5);
 	}
