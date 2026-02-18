@@ -124,19 +124,66 @@ jobs:
           
           Write-Host "Found NVGT compiler at: $($nvgtc.FullName)"
           echo "NVGTC=$($nvgtc.FullName)" >> $env:GITHUB_ENV
+          
+          # Validate NVGT installation by checking for required files
+          $nvgtInstallDir = Split-Path -Parent "$($nvgtc.FullName)"
+          Write-Host "`nValidating NVGT installation..."
+          Write-Host "Installation directory: $nvgtInstallDir"
+          
+          # Check for lib directory (contains runtime files)
+          if (Test-Path (Join-Path $nvgtInstallDir "lib")) {
+            Write-Host "✓ lib directory found"
+            $libFiles = Get-ChildItem -Path (Join-Path $nvgtInstallDir "lib") -File | Select-Object -First 10
+            Write-Host "  Sample files: $($libFiles.Name -join ', ')"
+          } else {
+            Write-Warning "⚠ lib directory not found - this may cause compilation issues"
+          }
+          
+          # Check for include directory (optional helper includes)
+          if (Test-Path (Join-Path $nvgtInstallDir "include")) {
+            Write-Host "✓ include directory found"
+          } else {
+            Write-Host "ℹ include directory not found (optional)"
+          }
+          
+          # Check for stub directory (stubs for various platforms)
+          if (Test-Path (Join-Path $nvgtInstallDir "stub")) {
+            Write-Host "✓ stub directory found"
+          } else {
+            Write-Warning "⚠ stub directory not found - may affect compilation"
+          }
+          
+          Write-Host "`nNVGT installation validation complete."
 
       - name: Compile server
         shell: pwsh
         timeout-minutes: 5
         run: |
           Write-Host "Compiling Ultra World Server..."
-          Push-Location server
-          & "$env:NVGTC" -c --platform windows uwserver.nvgt
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "Server compilation failed"
+          Write-Host "NVGT Compiler: $env:NVGTC"
+          
+          # Get the NVGT installation directory
+          $nvgtDir = Split-Path -Parent "$env:NVGTC"
+          Write-Host "NVGT Directory: $nvgtDir"
+          
+          # Get the absolute path to the server source file
+          $serverSource = (Resolve-Path "server/uwserver.nvgt").Path
+          Write-Host "Server source: $serverSource"
+          
+          # Change to NVGT directory and compile from there
+          # This ensures NVGT can find its runtime files and built-in functions
+          Push-Location $nvgtDir
+          Write-Host "Working directory: $(Get-Location)"
+          
+          & ".\nvgt.exe" -c --platform windows "$serverSource"
+          $compileResult = $LASTEXITCODE
+          Pop-Location
+          
+          if ($compileResult -ne 0) {
+            Write-Error "Server compilation failed with exit code: $compileResult"
             exit 1
           }
-          Pop-Location
+          
           # NVGT compiler outputs without .exe extension, rename it
           if (Test-Path "server/uwserver") {
             Rename-Item -Path "server/uwserver" -NewName "uwserver.exe"
@@ -153,13 +200,30 @@ jobs:
         timeout-minutes: 5
         run: |
           Write-Host "Compiling Ultra World Client..."
-          Push-Location client
-          & "$env:NVGTC" -c --platform windows uw.nvgt
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "Client compilation failed"
+          Write-Host "NVGT Compiler: $env:NVGTC"
+          
+          # Get the NVGT installation directory
+          $nvgtDir = Split-Path -Parent "$env:NVGTC"
+          Write-Host "NVGT Directory: $nvgtDir"
+          
+          # Get the absolute path to the client source file
+          $clientSource = (Resolve-Path "client/uw.nvgt").Path
+          Write-Host "Client source: $clientSource"
+          
+          # Change to NVGT directory and compile from there
+          # This ensures NVGT can find its runtime files and built-in functions
+          Push-Location $nvgtDir
+          Write-Host "Working directory: $(Get-Location)"
+          
+          & ".\nvgt.exe" -c --platform windows "$clientSource"
+          $compileResult = $LASTEXITCODE
+          Pop-Location
+          
+          if ($compileResult -ne 0) {
+            Write-Error "Client compilation failed with exit code: $compileResult"
             exit 1
           }
-          Pop-Location
+          
           # NVGT compiler outputs without .exe extension, rename it
           if (Test-Path "client/uw") {
             Rename-Item -Path "client/uw" -NewName "uw.exe"
