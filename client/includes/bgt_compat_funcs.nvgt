@@ -1,0 +1,87 @@
+// BGT Compatibility Functions
+// This file provides wrapper functions for old BGT-style function names
+// mapping them to new NVGT methods and functions
+
+// String functions
+string string_to_lower_case(string str) {
+	return str.lower();
+}
+
+string string_replace(string str, string find, string replace, bool all = true) {
+	if (all) {
+		return str.replace(find, replace);
+	} else {
+		// Replace only first occurrence
+		int pos = str.find(find);
+		if (pos >= 0) {
+			return str.substr(0, pos) + replace + str.substr(pos + find.length());
+		}
+		return str;
+	}
+}
+
+string[] string_split(string str, string delimiter, bool remove_empty = true) {
+	return str.split(delimiter, remove_empty);
+}
+
+string string_left(string str, int count) {
+	if (count < 0) count = 0;
+	if (count > str.length()) count = str.length();
+	return str.substr(0, count);
+}
+
+string string_trim_left(string str, int count) {
+	if (count < 0) count = 0;
+	if (count > str.length()) return "";
+	return str.substr(count);
+}
+
+int string_contains(string str, string find, int start_pos = 0) {
+	return str.find(find, start_pos);
+}
+
+double string_to_number(string str) {
+	return parse_float(str);
+}
+
+// Math functions
+double absolute(double value) {
+	return abs(value);
+}
+
+int absolute(int value) {
+	return abs(value);
+}
+
+// Serialization functions
+string serialize(dictionary dict) {
+	// Simple key=value serialization
+	string result = "";
+	string[] keys = dict.get_keys();
+	for (uint i = 0; i < keys.length(); i++) {
+		string key = keys[i];
+		string value;
+		dict.get(key, value);
+		result += key + "=" + value + "\n";
+	}
+	return result;
+}
+
+dictionary deserialize(string data) {
+	dictionary result;
+	string[] lines = data.split("\n", true);
+	for (uint i = 0; i < lines.length(); i++) {
+		int eq_pos = lines[i].find("=");
+		if (eq_pos > 0) {
+			string key = lines[i].substr(0, eq_pos);
+			string value = lines[i].substr(eq_pos + 1);
+			result.set(key, value);
+		}
+	}
+	return result;
+}
+
+// Window functions
+void hide_game_window() {
+	show_window("");
+}

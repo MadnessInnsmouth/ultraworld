@@ -1,3 +1,5 @@
+// BGT Compatibility functions
+#include "includes/bgt_compat_funcs.nvgt"
 #include "includes/inv.nvgt"
 #include "includes/camera.nvgt"
 #include "includes/mainloop.nvgt"
