@@ -294,18 +294,26 @@ string generate_computer_id(string salt = "", bool use_hardware = true) {
 	// Generate a computer ID based on available system information
 	// This is a compatibility wrapper for older NVGT API
 	
-	// In newer NVGT, we can use system_fingerprint or build our own
-	// from available system information
+	// In older NVGT, generate_computer_id() used hardware information
+	// In newer NVGT, we build a fingerprint from available system data
 	string id_base = "";
 	
-	// Try to get system-specific information
-	// Note: Availability of these functions may vary by NVGT version
-	id_base += get_window_os();  // Operating system info
-	id_base += PLATFORM;         // Platform constant
+	// Add environment variables as a fingerprint
+	// These are typically consistent for a given machine but may vary
+	id_base += read_environment_variable("COMPUTERNAME");
+	id_base += read_environment_variable("USERNAME");
+	id_base += read_environment_variable("PROCESSOR_IDENTIFIER");
+	id_base += read_environment_variable("OS");
 	
 	// Add salt if provided
 	if (salt.length() > 0) {
 		id_base += salt;
+	}
+	
+	// If we couldn't get any system info, fall back to a constant
+	// This means all machines will have the same ID, but prevents crashes
+	if (id_base.length() == 0 || id_base == salt) {
+		id_base = "default_computer_id" + salt;
 	}
 	
 	// Hash the combined information to create a unique ID
