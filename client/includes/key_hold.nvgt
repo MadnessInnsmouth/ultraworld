@@ -1,7 +1,7 @@
 class key_hold
 {
 	bool status;
-	short key_flag = 0;
+	int key_flag = 0;
 	int key_code;
 	int repeat_time;
 	int setting_1;
