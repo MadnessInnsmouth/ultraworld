@@ -70,6 +70,7 @@
 #include "includes/sign.nvgt"
 #include "includes/sizer.nvgt"
 #include "includes/sndloader.nvgt"
+#include "includes/sound.nvgt"
 #include "includes/sound_progress.nvgt"
 #include "includes/sounddl.nvgt"
 #include "includes/src.nvgt"
