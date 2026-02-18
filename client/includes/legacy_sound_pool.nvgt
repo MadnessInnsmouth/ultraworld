@@ -634,8 +634,9 @@ class sound_pool {
 			// NVGT API change: set_fx method signature changed/removed
 			// Using set_volume as a fallback for amplitude control
 			// Note: This may not behave exactly the same as the original $amp:volume: effect
-			// The amp parameter is passed directly to set_volume, which expects 0.0-1.0 range
-			items[slot].handle.set_volume(amp);
+			// Clamp amp to valid range [0.0, 1.0] for set_volume
+			float clamped_amp = amp < 0.0 ? 0.0 : (amp > 1.0 ? 1.0 : amp);
+			items[slot].handle.set_volume(clamped_amp);
 		}
 		return true;
 	}

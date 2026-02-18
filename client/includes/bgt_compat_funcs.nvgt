@@ -153,10 +153,16 @@ const int NVDA = 4;
 bool screen_reader_is_running(int reader_type = 0) {
 	// NVGT API change: BGT's screen_reader_is_running() function has been replaced
 	// NVGT has built-in screen reader detection that works automatically
+	// 
 	// This stub returns true to allow code that checks for screen readers to function
-	// Note: In NVGT, screen reader output is handled automatically by the engine
-	// Individual screen reader detection (JAWS, NVDA, etc.) may not be necessary
-	// TODO: Consider using NVGT's screen_reader_detect() if specific reader detection is needed
+	// Note: The reader_type parameter is ignored - NVGT handles screen reader output
+	// automatically regardless of which screen reader is running.
+	// 
+	// In BGT, reader_type corresponded to: 1=JAWS, 2=Window-Eyes, 3=System Access, 4=NVDA
+	// NVGT's screen reader support is more universal and doesn't require per-reader logic
+	// 
+	// TODO: If specific reader detection is needed, consider using NVGT's screen_reader_detect()
+	// and mapping its return values to the expected reader types
 	return true;
 }
 
