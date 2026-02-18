@@ -80,6 +80,14 @@ double power(double base, double exponent) {
 	return pow(base, exponent);
 }
 
+double square_root(double value) {
+	return sqrt(value);
+}
+
+bool string_is_digits(string str) {
+	return str.is_digits();
+}
+
 // Math functions
 double absolute(double value) {
 	return abs(value);
