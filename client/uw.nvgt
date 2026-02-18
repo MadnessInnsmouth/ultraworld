@@ -324,7 +324,7 @@ void main() {
 	if (!directory_exists("logs")) directory_create("logs");
 	@sndpack = pack();
 	sndpack.open(sndloc, PACK_OPEN_MODE_READ);
-	@sound_default_pack = @sndpack;
+	// sound_default_pack is now a built-in property in NVGT, removed manual assignment
 	set_sound_global_hrtf(true);
 	@default_input_process_loop = process_loops;
 	invcats.insert_last("weapons");
