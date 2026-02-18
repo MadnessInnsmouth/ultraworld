@@ -652,7 +652,7 @@ void playermapmenu(string[] users) {
 		if (counter > 0) {
 			if (key_pressed(KEY_F1) and users[counter] != "" and counter <= users.length() - 1) {
 				speak(users[counter] + " copyed to clipboard");
-				clipboard_copy_text(users[counter]);
+				clipboard_set_text(users[counter]);
 			}
 			if (key_pressed(KEY_F2) and users[counter] != "" and counter <= users.length() - 1) {
 				string message = input("Message", "enter the message that you want to send to " + users[counter], multiline = true);
@@ -830,7 +830,7 @@ void playermenu(string[] users) {
 				continue;
 			}
 			speak(u[0] + " copyed to clipboard");
-			clipboard_copy_text(u[0]);
+			clipboard_set_text(u[0]);
 		}
 		if (key_pressed(KEY_F2) and users[counter] != "" and counter <= users.length() - 1) {
 			string[] u = string_split(users[counter], " ", true);

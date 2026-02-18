@@ -239,11 +239,11 @@ class phonetext_input
 					for (uint i = 0; i < entry.length(); i++)
 						fulltext += entry[i];
 					if (fulltext.length() == 0) continue;
-					clipboard_copy_text(fulltext);
+					clipboard_set_text(fulltext);
 					speak("copied: " + fulltext);
 				}
 				if (key_pressed(KEY_V)) {
-					string pastetext = clipboard_read_text();
+					string pastetext = clipboard_get_text();
 					if (pastetext.length() == 0) continue;
 					int space = entry.length() + pastetext.length();
 					if (space > textlength and textlength > 0) continue;
