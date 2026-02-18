@@ -1,6 +1,12 @@
 #pragma asset "docs"
 #pragma asset "unzip.bat"
 #pragma plugin nvgt_curl
+// Dummy instance class for compatibility - instance class not available in current NVGT version
+class instance {
+	bool is_already_running = false;
+	instance() {}
+	instance(string exe_name) {}
+}
 string[] store_owners_list;
 string[] player_stores_list;
 bool received_store_owners = false;
