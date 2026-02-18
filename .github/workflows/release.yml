@@ -85,7 +85,7 @@ jobs:
           
           # Wait a moment for filesystem operations to complete
           Write-Host "Installation completed. Waiting for filesystem to sync..."
-          Start-Sleep -Seconds 2
+          Start-Sleep -Seconds 3
           
           Write-Host "Searching for nvgtc.exe..."
           
@@ -99,6 +99,18 @@ jobs:
           
           # Search for nvgtc.exe in the installation directory
           $nvgtc = Get-ChildItem -Path $installDir -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          
+          # If not found in custom directory, check common install locations
+          if (-not $nvgtc) {
+            Write-Host "`nSearching in Program Files..."
+            $programFiles = @($env:ProgramFiles, ${env:ProgramFiles(x86)})
+            foreach ($pf in $programFiles) {
+              if ($pf -and (Test-Path $pf)) {
+                $nvgtc = Get-ChildItem -Path $pf -Recurse -Filter "nvgtc.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+                if ($nvgtc) { break }
+              }
+            }
+          }
           
           if (-not $nvgtc) {
             Write-Error "Could not find nvgtc.exe after installation"
