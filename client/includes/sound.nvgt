@@ -51,7 +51,9 @@ void music_fade(int time, int final) {
 	}
 }
 void mplay(string dsound, bool loop = false) {
-	p.play_stationary_extended("" + dsound + "", loop);
+	// Updated to match legacy_sound_pool.nvgt signature:
+	// play_stationary_extended(filename, looping, offset, start_pan, start_volume, start_pitch, ...)
+	p.play_stationary_extended("" + dsound + "", loop, 0.0, 0.0, 0.0, 100.0);
 }
 void sound_stop_all() {
 	p.pause_all();
